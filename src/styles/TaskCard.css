@@ -1,0 +1,408 @@
+/* styles/TaskCard.css */
+.task-card {
+  background: white;
+  border: 1px solid #f3f4f6;
+  border-radius: 6px;
+  padding: 12px;
+  cursor: grab;
+  transition: all 0.2s ease;
+  position: relative;
+  border: 1.5px solid #e1e4e8 !important;
+  box-shadow: 0 1px 4px #3c404314,0 .5px 1.5px #3c404308;
+  background: #fff !important;
+  margin-bottom: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.task-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.task-card.dragging {
+  opacity: 0.5;
+  transform: rotate(5deg);
+  cursor: grabbing;
+}
+
+.task-tags {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.task-tag {
+
+  display: inline-block;
+  border-radius: 2px;
+  padding: 0px 4px;
+  color: rgb(255, 255, 255);
+  font-size: 10px;
+  margin-right: 4px;
+  white-space: nowrap;
+  min-width: 0px;
+}
+
+.task-tag.ux-ui {
+  
+  background:rgb(203, 188, 120);
+  color: rgb(255, 255, 255);
+}
+
+.task-tag.ai {
+  color: rgb(255, 255, 255);
+  background: #1e40af;
+}
+
+.task-tag.content {
+  color: rgb(255, 255, 255);
+  background: #be185d;
+}
+
+.task-tag.design {
+  color: rgb(255, 255, 255);
+  background: #059669;
+}
+
+.task-tag.planning {
+  color: rgb(255, 255, 255);
+  background: #3730a3;
+}
+
+.task-tag.finance {
+  color: rgb(255, 255, 255);
+  background: #dc2626;
+}
+
+.task-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.task-title-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  flex: 1;
+}
+
+.task-priority {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  margin-top: 2px;
+  flex-shrink: 0;
+  margin-top: 8px;
+}
+
+.task-priority.high {
+  background: rgba(205, 92, 92, 0.41);
+}
+
+.task-priority.medium {
+  background: rgba(218, 165, 32, 0.41);
+}
+
+.task-priority.low {
+  background: rgba(46, 139, 87, 0.41);
+}
+
+.task-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1E1E1E;
+  line-height: 1.4;
+  margin: 0;
+    margin-bottom: 0px;
+  flex: 1;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Roboto", "Helvetica Neue", "Arial", "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+  margin-bottom: 4px;
+  line-height: 1.4;
+  word-break: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.task-menu {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 2px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.task-card:hover .task-menu {
+  opacity: 1;
+}
+
+.subtasks-list {
+  margin: 12px 0;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.subtask-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.subtask-checkbox {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #d1d5db;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.task-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task-date {
+  font-size: 10px;
+  color: rgb(136, 136, 136);
+  margin-right: 8px;
+  white-space: nowrap;
+  display: inline-block;
+  transition: all .2s ease;
+  cursor: pointer;
+  padding-left: .25rem;
+  padding-right: .25rem;
+  padding-top: .125rem;
+  padding-bottom: .125rem;
+  border-radius: .25rem;
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: #e5e7eb;
+}
+
+.task-right-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.subtask-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.subtask-toggle:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.task-assignees {
+  display: flex;
+  align-items: center;
+  gap: -4px;
+}
+
+.assignee-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid white;
+  margin-left: -4px;
+  position: relative;
+}
+
+.assignee-avatar:first-child {
+  margin-left: 0;
+}
+
+.add-assignee-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid white;
+  margin-left: -4px;
+  position: relative;
+  transition: all .2s ease;
+  --tw-text-opacity: 1;
+  color: rgb(75 85 99 / var(--tw-text-opacity, 1));
+  --tw-border-opacity: 1;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
+  border-style: dashed;
+  border-width: 1px;
+  border-radius: 9999px;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-feature-settings: inherit;
+  font-variation-settings: inherit;
+  font-size: 100%;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  margin: 0;
+  padding: 0;
+  text-transform: none;
+  background-color: #f9f9f9;
+}
+
+.add-assignee-btn:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+/* Fork Icon Subtask Button Styles */
+.subtask-toggle-fork {
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: #ffffff;
+}
+
+/* Dark mode background */
+.dark .subtask-toggle-fork {
+  background-color: #1e1e1e;
+}
+
+/* Expanded state */
+.subtask-toggle-fork.expanded {
+  background-color: #f3f4f6;
+}
+
+.dark .subtask-toggle-fork.expanded {
+  background-color: #374151;
+}
+
+/* Hover states */
+.subtask-toggle-fork:hover {
+  background-color: #f9fafb;
+}
+
+.dark .subtask-toggle-fork:hover {
+  background-color: #374151;
+}
+
+.subtask-toggle-fork.expanded:hover {
+  background-color: #e5e7eb;
+}
+
+.dark .subtask-toggle-fork.expanded:hover {
+  background-color: #4b5563;
+}
+
+/* Fork SVG icon */
+.fork-svg-icon {
+  width: 8px;
+  height: 8px;
+  color: #888888;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+/* Subtask count */
+.subtask-count {
+  font-size: 10px;
+  color: #888888;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+
+
+/* Add these styles to your existing TaskCard.css file */
+
+/* Task Header Right Section */
+.task-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Task Progress Circle Styles */
+.task-progress-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.task-progress-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.task-progress-circle svg {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+/* Add hover effect for progress circle */
+.task-card:hover .task-progress-circle svg {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+/* Ensure proper spacing in task-right-section with progress circle */
+.task-right-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Dark mode support (if you use dark mode) */
+.dark .task-progress-circle svg circle:first-child {
+  stroke: #374151;
+  stroke-opacity: 0.5;
+}
+
+/* Animation for progress updates */
+.task-progress-circle svg circle {
+  transition: stroke-dashoffset 0.5s ease-in-out, stroke 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .task-progress-wrapper {
+    margin-right: 4px;
+  }
+  
+  .task-progress-circle svg {
+    width: 20px;
+    height: 20px;
+  }
+}

@@ -1,0 +1,31 @@
+/* styles/KanbanBoard.css */
+.kanban-container {
+  width: 100%;
+  height: 100vh;
+  background-color: #f8fafc;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.kanban-board {
+  display: flex;
+  gap: 16px;
+  height: calc(100vh - 140px);
+  overflow-x: auto;
+  padding-bottom: 20px;
+}
+
+.drag-overlay {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  transform: rotate(5deg);
+  opacity: 0.9;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .kanban-container {
+    padding: 12px;
+  }
+}

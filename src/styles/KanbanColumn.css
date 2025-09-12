@@ -1,0 +1,251 @@
+/* styles/KanbanColumn.css */
+.kanban-column {
+  
+  width: 300px;
+  min-width: 300px;
+  max-width: 300px;
+  background: white;
+  border-radius: 8px;
+  padding: 12px;
+  border: 1px solid var(--ant-color-border);
+  box-shadow: 0 1px 2px var(--ant-color-shadow);
+  transition: all .2s ease;
+  display: flex;
+  flex-direction: column;
+
+  
+
+  border: 0.1px solid rgb(224, 224, 224);
+    border-top-width: 0.1px;
+    border-top-style: solid;
+    border-top-color: rgb(224, 224, 224);
+    border-right-width: 0.1px;
+    border-right-style: solid;
+    border-right-color: rgb(224, 224, 224);
+    border-bottom-width: 0.1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(224, 224, 224);
+    border-left-width: 0.1px;
+    border-left-style: solid;
+    border-left-color: rgb(224, 224, 224);
+    border-image-outset: 0;
+    border-image-repeat: stretch;
+    border-image-slice: 100%;
+    border-image-source: none;
+    border-image-width: 1;
+}
+
+.column-header {
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 6px;
+  transition: all .2s ease;
+  cursor: grab;
+  border-bottom: 1px solid var(--ant-color-border);
+  margin: -8px -8px 4px;
+}
+
+.column-header.todo {
+  background: #A9A9A969;
+}
+
+.column-header.doing {
+  background: #70A6F369;
+}
+
+.column-header.done {
+  background: #75C99769;
+}
+
+.column-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  --tw-text-opacity: 1;
+  color: rgb(17 24 39 / var(--tw-text-opacity, 1));
+  text-transform: capitalize;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 185px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system,BlinkMacSystemFont,Inter,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji" !important;
+}
+
+/* Add these new styles to your KanbanColumn.css */
+
+.column-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.column-menu-button {
+  background: none;
+  border: none;
+  color: rgb(31 41 55 / var(--tw-text-opacity, 1));
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.column-menu-button:hover {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.column-count {
+ --tw-text-opacity: 1;
+  color: rgb(17 24 39 / var(--tw-text-opacity, 1));
+  margin-left: -3px;
+  font-family: -apple-system,BlinkMacSystemFont,Inter,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji" !important;
+}
+
+.add-task-button {
+  background: none;
+  border: none;
+  --tw-text-opacity: 1;
+  color: rgb(31 41 55 / var(--tw-text-opacity, 1));
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.add-task-button:hover {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.column-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 200px;
+  max-height: 600px;
+  transition: all .2s ease;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: transparent;
+}
+
+.add-task-card {
+  background: #f9fafb;
+  border: 2px dashed #d1d5db;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #6b7280;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.add-task-card:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+  color: #374151;
+}
+
+.add-task-form {
+  background: white;
+  border: 2px solid #3b82f6;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.add-task-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #374151;
+  margin-bottom: 12px;
+  resize: vertical;
+  min-height: 60px;
+  font-family: inherit;
+}
+
+.add-task-input::placeholder {
+  color: #9ca3af;
+}
+
+.add-task-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.btn-primary {
+  background: #3b82f6;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #2563eb;
+}
+
+.btn-primary:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.btn-secondary:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+/* Scrollbar styling */
+.column-tasks::-webkit-scrollbar {
+  width: 6px;
+}
+
+.column-tasks::-webkit-scrollbar-track {
+  background: #f8fafc;
+  border-radius: 3px;
+}
+
+.column-tasks::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 3px;
+}
+
+.column-tasks::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .kanban-column {
+    min-width: 280px;
+  }
+}
