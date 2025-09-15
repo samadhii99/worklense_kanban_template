@@ -1,10 +1,11 @@
 // components/TaskCard.jsx
-import React, { useState } from 'react';
-import { Plus, Calendar, MoreHorizontal, ChevronDown, ChevronRight } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Plus, Calendar, MoreHorizontal, ChevronDown, ChevronRight, ChevronLeft } from 'lucide-react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { tagLabels } from '../data/tagData';
 import '../styles/TaskCard.css';
+import '../styles/DatePicker.css';
 
 // Add the TaskProgressCircle component
 const TaskProgressCircle = ({ task, size = 28 }) => {
@@ -74,8 +75,187 @@ const TaskProgressCircle = ({ task, size = 28 }) => {
   );
 };
 
+// Date Picker Component
+const DatePicker = ({ isOpen, onClose, currentDate, onDateSelect, position }) => {
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const datePickerRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (datePickerRef.current && !datePickerRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+  const getDaysInMonth = (date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startingDayOfWeek = (firstDay.getDay() + 6) % 7; // Convert to Monday = 0
+
+    const days = [];
+    
+    // Add empty cells for days before the first day of the month
+    for (let i = 0; i < startingDayOfWeek; i++) {
+      days.push(null);
+    }
+    
+    // Add days of the month
+    for (let day = 1; day <= daysInMonth; day++) {
+      days.push(new Date(year, month, day));
+    }
+    
+    return days;
+  };
+
+  const navigateMonth = (direction) => {
+    setCurrentMonth(prevMonth => {
+      const newMonth = new Date(prevMonth);
+      newMonth.setMonth(prevMonth.getMonth() + direction);
+      return newMonth;
+    });
+  };
+
+  const handleDateClick = (date) => {
+    if (date) {
+      onDateSelect(date);
+      onClose();
+    }
+  };
+
+  const handleTodayClick = () => {
+    const today = new Date();
+    onDateSelect(today);
+    onClose();
+  };
+
+  const handleTomorrowClick = () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    onDateSelect(tomorrow);
+    onClose();
+  };
+
+  const handleNextWeekClick = () => {
+    const nextWeek = new Date();
+    nextWeek.setDate(nextWeek.getDate() + 7);
+    onDateSelect(nextWeek);
+    onClose();
+  };
+
+  const handleClearClick = () => {
+    onDateSelect(null);
+    onClose();
+  };
+
+  const isToday = (date) => {
+    const today = new Date();
+    return date && date.toDateString() === today.toDateString();
+  };
+
+  const isSelected = (date) => {
+    return currentDate && date && date.toDateString() === new Date(currentDate).toDateString();
+  };
+
+  const days = getDaysInMonth(currentMonth);
+
+      return (
+    <div 
+      ref={datePickerRef}
+      className="date-picker-popup"
+      style={{
+        position: 'fixed',
+        top: `${position.top}px`,
+        left: `${position.left}px`,
+        zIndex: 10000
+      }}
+    >
+      <div className="date-picker-header">
+        <button 
+          className="nav-button"
+          onClick={() => navigateMonth(-1)}
+        >
+          <ChevronLeft size={16} />
+        </button>
+        <h3 className="month-year">
+          {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+        </h3>
+        <button 
+          className="nav-button"
+          onClick={() => navigateMonth(1)}
+        >
+          <ChevronRight size={16} />
+        </button>
+      </div>
+
+      <div className="calendar-grid">
+        <div className="day-headers">
+          {dayNames.map(day => (
+            <div key={day} className="day-header">{day}</div>
+          ))}
+        </div>
+        
+        <div className="dates-grid">
+          {days.map((date, index) => (
+            <button
+              key={index}
+              className={`date-cell ${!date ? 'empty' : ''} ${isToday(date) ? 'today' : ''} ${isSelected(date) ? 'selected' : ''}`}
+              onClick={() => handleDateClick(date)}
+              disabled={!date}
+            >
+              {date ? date.getDate() : ''}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="date-picker-actions">
+        <div className="action-buttons-row">
+          <button className="action-button primary" onClick={handleTodayClick}>
+            Today
+          </button>
+          <button className="action-button clear" onClick={handleClearClick}>
+            Clear
+          </button>
+        </div>
+        <div className="action-buttons-row-2">
+          <button className="action-button secondary" onClick={handleTomorrowClick}>
+            Tomorrow
+          </button>
+          <button className="action-button secondary" onClick={handleNextWeekClick}>
+            Next week
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const TaskCard = ({ task, isDragging }) => {
   const [showSubtasks, setShowSubtasks] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [datePickerPosition, setDatePickerPosition] = useState({ top: 0, left: 0 });
+  const dateButtonRef = useRef(null);
   
   const {
     attributes,
@@ -90,6 +270,28 @@ const TaskCard = ({ task, isDragging }) => {
     transition,
   };
 
+const handleDateClick = (event) => {
+  event.stopPropagation();
+  if (dateButtonRef.current) {
+    const rect = dateButtonRef.current.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    
+    setDatePickerPosition({
+      top: rect.bottom + scrollTop + 5,
+      left: rect.left + scrollLeft
+    });
+  }
+  setShowDatePicker(!showDatePicker);
+};
+
+
+  const handleDateSelect = (date) => {
+    // Here you would update the task's due date
+    console.log('Selected date:', date);
+    // You can implement the actual date update logic here
+  };
+
   return (
     <div
       ref={setNodeRef}
@@ -100,11 +302,16 @@ const TaskCard = ({ task, isDragging }) => {
     >
       {/* Tags at the top */}
       <div className="task-tags">
-        {task.tags.map(tag => (
-          <span key={tag} className={`task-tag ${tag}`}>
-            {tagLabels[tag] || tag}
-          </span>
-        ))}
+        <div className="tags-left">
+          {task.tags.map(tag => (
+            <span key={tag} className={`task-tag ${tag}`}>
+              {tagLabels[tag] || tag}
+            </span>
+          ))}
+        </div>
+        <div className="task-progress-wrapper">
+          <TaskProgressCircle task={task} size={20} />
+        </div>
       </div>
       
       {/* Title with priority indicator */}
@@ -139,16 +346,15 @@ const TaskCard = ({ task, isDragging }) => {
       
       {/* Footer with date and assignees */}
       <div className="task-footer">
-        <div className="task-date">
-          {task.dueDate}
-        </div>
+        <button 
+          ref={dateButtonRef}
+          className="task-date"
+          onClick={handleDateClick}
+        >
+          {task.dueDate || 'No due date'}
+        </button>
         
         <div className="task-right-section">
-          {/* Add Task Progress Circle here */}
-          <div className="task-progress-wrapper">
-            <TaskProgressCircle task={task} size={24} />
-          </div>
-
           <div className="task-assignees">
             {task.assignees.map((assignee, index) => (
               <img
@@ -201,6 +407,15 @@ const TaskCard = ({ task, isDragging }) => {
           )}
         </div>
       </div>
+
+      {/* Date Picker Popup */}
+      <DatePicker
+  isOpen={showDatePicker}
+  onClose={() => setShowDatePicker(false)}
+  currentDate={task.dueDate}
+  onDateSelect={handleDateSelect}
+  position={datePickerPosition}
+/>
     </div>
   );
 };

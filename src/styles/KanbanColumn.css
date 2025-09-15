@@ -141,12 +141,6 @@
 }
 
 .add-task-card {
-  background: #f9fafb;
-  border: 2px dashed #d1d5db;
-  border-radius: 8px;
-  padding: 16px;
-  text-align: center;
-  cursor: pointer;
   transition: all 0.2s ease;
   color: #6b7280;
   font-size: 14px;
@@ -154,6 +148,29 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+  transition: all .2s ease;
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity, 1));
+  --tw-border-opacity: 1;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
+  border-style: dashed;
+  border-width: 2px;
+  border-radius: .375rem;
+  gap: .5rem;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 2.5rem;
+  display: flex;
+  margin-top: .5rem;
+  box-sizing: border-box;
+  cursor: pointer;
+  -webkit-appearance: button;
+  background-color: transparent;
+  background-image: none;
+  text-transform: none;
+  font-feature-settings: inherit;
+  font-variation-settings: inherit;
 }
 
 .add-task-card:hover {

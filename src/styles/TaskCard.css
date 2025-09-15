@@ -28,7 +28,8 @@
 
 .task-tags {
   display: flex;
-  gap: 4px;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 4px;
 }
 
@@ -42,6 +43,12 @@
   margin-right: 4px;
   white-space: nowrap;
   min-width: 0px;
+}
+
+.tags-left {
+  display: flex;
+  gap: 4px;
+  flex: 1;
 }
 
 .task-tag.ux-ui {
@@ -192,9 +199,14 @@
   padding-bottom: .125rem;
   border-radius: .25rem;
   box-sizing: border-box;
-  border-width: 0;
-  border-style: solid;
-  border-color: #e5e7eb;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+.task-date:hover {
+  background: #f3f4f6;
+  color: #374151;
 }
 
 .task-right-section {

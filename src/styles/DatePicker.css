@@ -1,0 +1,302 @@
+/* styles/DatePicker.css */
+
+.date-picker-popup {
+  z-index: 10000 !important;
+  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / .1), 0 4px 6px -4px rgb(0 0 0 / .1);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow);
+  padding: .25rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+  --tw-border-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-border-opacity, 1));
+  border-width: 1px;
+  border-radius: .375rem;
+  width: 13rem;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system,BlinkMacSystemFont,Inter,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji" !important;
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+}
+
+.date-picker-header {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  margin-bottom: .125rem;
+  margin: 0;
+    margin-bottom: 0px;
+  margin-bottom: 0px;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system,BlinkMacSystemFont,Inter,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji" !important;
+  border-width: 0;
+  border-style: solid;
+  border-color: #e5e7eb;
+  --tw-bg-opacity: 1;
+  --tw-border-opacity: 1;
+  color: #181818;
+}
+
+.nav-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  color: #6b7280;
+  transition: all 0.2s ease;
+}
+
+.nav-button:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.month-year {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.calendar-grid {
+  margin-bottom: 16px;
+}
+
+.day-headers {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0px;
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity, 1));
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system,BlinkMacSystemFont,Inter,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji" !important;
+}
+
+.day-header {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 500;
+  color: #6b7280;
+  padding: 4px;
+}
+
+.dates-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.date-cell {
+ outline: none;
+  --tw-text-opacity: 1;
+  color: rgb(31 41 55 / var(--tw-text-opacity, 1));
+  font-size: 10px;
+  border-radius: 9999px;
+  justify-content: center;
+  align-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  display: flex;
+  cursor: pointer;
+}
+
+.date-cell:hover:not(.empty):not(:disabled) {
+  background: #f3f4f6;
+}
+
+.date-cell.empty {
+  cursor: default;
+}
+
+.date-cell.today {
+  background: rgb(37 99 235 / var(--tw-bg-opacity, 1));
+  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+  font-weight: 600;
+}
+
+.date-cell.selected {
+  background: #3b82f6;
+  color: white;
+  font-weight: 600;
+}
+
+.date-cell.selected:hover {
+  background: #2563eb;
+}
+
+.date-picker-actions {
+  display: flex;
+  flex-direction: column;
+  padding: 2px;
+}
+
+.action-buttons-row {
+  display: flex;
+  margin-top: -15px;
+  gap: .125rem;
+}
+
+.action-buttons-row-2{
+    display: flex;
+  margin-top: 8px;
+  gap: .25rem;
+}
+
+.action-button {
+  flex: 1;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action-button.primary {
+  transition-property: color,background-color,border-color,fill,stroke,-webkit-text-decoration-color;
+  transition-property: color,background-color,border-color,text-decoration-color,fill,stroke;
+  transition-property: color,background-color,border-color,text-decoration-color,fill,stroke,-webkit-text-decoration-color;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+  transition-duration: .15s;
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+  font-size: 10px;
+  padding-top: .125rem;
+  padding-bottom: .125rem;
+  padding-left: .125rem;
+  padding-right: .125rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity, 1));
+  border-radius: .25rem;
+  flex: 1 1 0%;
+  cursor: pointer;
+  text-transform: none;
+  margin: 0;
+  padding: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system,BlinkMacSystemFont,Inter,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji" !important;
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: #e5e7eb;
+}
+
+.action-button.primary:hover {
+  background: #0f55ec;
+}
+
+.action-button.secondary {
+  transition-property: color,background-color,border-color,text-decoration-color,fill,stroke,-webkit-text-decoration-color;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+  transition-duration: .15s;
+  --tw-text-opacity: 1;
+  color: rgb(31 41 55 / var(--tw-text-opacity, 1));
+  font-size: .75rem;
+  line-height: 1rem;
+  padding-top: .125rem;
+  padding-bottom: .125rem;
+  padding-left: .25rem;
+  padding-right: .25rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1));
+  border-radius: .25rem;
+  flex: 1 1 0%;
+  cursor: pointer;
+}
+
+.action-button.secondary:hover {
+  background: rgb(206, 204, 202);
+}
+
+.action-button.clear {
+  transition-property: color,background-color,border-color,fill,stroke,-webkit-text-decoration-color;
+  transition-property: color,background-color,border-color,text-decoration-color,fill,stroke;
+  transition-property: color,background-color,border-color,text-decoration-color,fill,stroke,-webkit-text-decoration-color;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+  transition-duration: .15s;
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity, 1));
+  font-size: .75rem;
+  line-height: 1rem;
+  padding-top: .125rem;
+  padding-bottom: .125rem;
+  padding-left: .25rem;
+  padding-right: .25rem;
+  border-radius: .25rem;
+  cursor: pointer;
+}
+
+.action-button.clear:hover {
+  background: #fae6e6;
+}
+
+/* Dark mode support */
+.dark .date-picker-popup {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.dark .month-year {
+  color: #f9fafb;
+}
+
+.dark .day-header {
+  color: #9ca3af;
+}
+
+.dark .date-cell {
+  color: #e5e7eb;
+}
+
+.dark .date-cell:hover:not(.empty):not(:disabled) {
+  background: #374151;
+}
+
+.dark .date-cell.today {
+  background: #1e3a8a;
+  color: #93c5fd;
+}
+
+.dark .nav-button {
+  color: #9ca3af;
+}
+
+.dark .nav-button:hover {
+  background: #374151;
+  color: #f3f4f6;
+}
+
+.dark .action-button.secondary {
+  background: #374151;
+  color: #e5e7eb;
+}
+
+.dark .action-button.secondary:hover {
+  background: #4b5563;
+}
+
+/* Animation for popup appearance */
+.date-picker-popup {
+  animation: fadeInUp 0.2s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

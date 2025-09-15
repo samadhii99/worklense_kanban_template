@@ -111,7 +111,7 @@ const KanbanColumn = ({ column, tasks, onAddTask }) => {
             onClick={() => setShowAddForm(true)}
           >
             <Plus size={16} />
-            Add a card
+            Add Task
           </div>
         )}
       </div>
