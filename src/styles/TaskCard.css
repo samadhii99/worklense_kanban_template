@@ -286,7 +286,12 @@
 
 .add-assignee-btn:hover {
   background: #e5e7eb;
-  color: #374151;
+  color: #337cf1;
+}
+
+.add-assignee-btn.active {
+  background: #cddbf7;
+  color: #337cf1;
 }
 
 /* Fork Icon Subtask Button Styles */
