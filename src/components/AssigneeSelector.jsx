@@ -1,7 +1,7 @@
 // components/AssigneeSelector.jsx
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Search, Plus } from 'lucide-react';
+import { Search, UserRoundPlus, Check } from 'lucide-react';
 import '../styles/AssigneeSelector.css';
 
 // Sample user data - you can replace this with your actual user data from initialData.js
@@ -181,8 +181,8 @@ const AssigneeSelector = ({
               >
                 <div className="assignee-user-info">
                   <div className={`assignee-checkbox ${isUserAssigned(user.id) ? 'checked' : ''}`}>
-                    {isUserAssigned(user.id) && <span className="checkbox-tick">✓</span>}
-                  </div>
+  {isUserAssigned(user.id) && <Check size={12} className="checkbox-tick" />}
+</div>
                   <img
                     src={user.avatar}
                     alt={user.name}
@@ -203,15 +203,16 @@ const AssigneeSelector = ({
         </div>
 
         {/* Invite Member Button */}
-        <div className="assignee-selector-footer">
-          <button 
-            className="invite-member-button"
-            onClick={handleInviteMember}
-          >
-            <Plus size={16} />
-            Invite member
-          </button>
-        </div>
+        {/* Invite Member Button */}
+<div className="assignee-selector-footer">
+  <button 
+    className="invite-member-button"
+    onClick={handleInviteMember}
+  >
+    <UserRoundPlus size={13} />
+    Invite member
+  </button>
+</div>
       </div>
     </>
   );

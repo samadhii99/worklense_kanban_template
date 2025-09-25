@@ -1,6 +1,6 @@
 // components/KanbanColumn.jsx
 import React, { useState } from 'react';
-import { Plus } from 'lucide-react';
+import { Plus, MoreHorizontal, SquarePen, Trash2 } from 'lucide-react';
 import {
   SortableContext,
   useSortable,
@@ -13,6 +13,7 @@ import '../styles/KanbanColumn.css';
 const KanbanColumn = ({ column, tasks, onAddTask }) => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const {
     attributes,
@@ -44,30 +45,84 @@ const KanbanColumn = ({ column, tasks, onAddTask }) => {
     }
   };
 
+  const handleColumnMenuClick = (e) => {
+    e.stopPropagation();
+    setShowDropdown(!showDropdown);
+  };
+
+  const handleDropdownClose = () => {
+    setShowDropdown(false);
+  };
+
+  const handleDropdownAction = (action) => {
+    console.log(`Column ${column.id} action:`, action);
+    // Add your action handlers here
+    setShowDropdown(false);
+  };
+
   return (
     <div ref={setNodeRef} style={style} className="kanban-column">
       
       <div className={`column-header ${column.id}`}>
-  <div className="column-title">
-    {column.title}
-    <span className="column-count">({tasks.length})</span>
-  </div>
-  <div className="column-header-actions">
-    <button
-      className="add-task-button"
-      onClick={() => setShowAddForm(true)}
-    >
-      <Plus size={16} />
-    </button>
-    <button className="column-menu-button">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-        <circle cx="3" cy="8" r="1.5"/>
-        <circle cx="8" cy="8" r="1.5"/>
-        <circle cx="13" cy="8" r="1.5"/>
-      </svg>
-    </button>
-  </div>
-</div>
+        <div className="column-title">
+          {column.title}
+          <span className="column-count">({tasks.length})</span>
+        </div>
+        <div className="column-header-actions">
+          <button
+            className="add-task-button"
+            onClick={() => setShowAddForm(true)}
+          >
+            <Plus size={16} />
+          </button>
+          <button 
+            className="column-menu-button" 
+            onClick={handleColumnMenuClick}
+          >
+            <MoreHorizontal size={16} />
+          </button>
+
+          {showDropdown && (
+            <>
+              <div className="dropdown-overlay" onClick={handleDropdownClose} />
+              <div className="column-dropdown">
+                <button 
+  className="dropdown-item" 
+  onClick={() => handleDropdownAction('edit')}
+>
+  <SquarePen size={14} />
+  Rename
+</button>
+                
+                <div className="dropdown-separator" />
+                
+                <div className="dropdown-section">
+                  <div className="Change-Category">CHANGE CATEGORY</div>
+                  <button onClick={() => handleDropdownAction('move-todo')}>
+                    <span className='font-bold'>To do</span>
+                  </button>
+                  <button onClick={() => handleDropdownAction('move-doing')}>
+                    <span className='font-bold'>Doing</span>
+                  </button>
+                  <button onClick={() => handleDropdownAction('move-done')}>
+                    <span className='font-bold'>Done</span>
+                  </button>
+                </div>
+                
+                <div className="dropdown-separator" />
+                
+                <button 
+                  className="dropdown-item danger" 
+                  onClick={() => handleDropdownAction('delete')}
+                >
+                  <Trash2 size={14} />
+                  Delete
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
       
       <div className="column-tasks">
         <SortableContext items={tasks.map(task => task.id)} strategy={verticalListSortingStrategy}>

@@ -4,20 +4,23 @@
 }
 
 .subtasks-list {
-  margin-bottom: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  transition: all .2s ease;
+  padding-top: .5rem;
+  border-top-width: 1px;
+  margin-top: 0.5rem;
+  --tw-border-opacity: 1;
+  border-color: rgb(243 244 246 / var(--tw-border-opacity, 1));
 }
 
 .subtask-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
   font-size: 13px;
-  padding: 2px 0;
-  position: relative;
-  group: hover;
+  transition: all .2s ease;
+  padding-left: .5rem;
+  padding-right: .5rem;
+  border-radius: .25rem;
+  gap: .5rem;
+  align-items: center;
+  display: flex;
 }
 
 /* Medium Priority Dot for Subtasks */
@@ -62,11 +65,15 @@
 }
 
 .subtask-title {
-  flex: 1;
-  color: #374151;
-  line-height: 1.4;
-  word-break: break-word;
-  transition: all 0.2s ease;
+  font-size: .75rem;
+  line-height: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1 1 0%;
+  transition: all .2s ease;
+  --tw-text-opacity: 1;
+  color: rgb(31 41 55 / var(--tw-text-opacity, 1));
 }
 
 .subtask-title.completed {
@@ -142,6 +149,14 @@
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+.subtasks-border-top {
+ margin-top: 5px;
+  border-top: 1px solid;
+    border-top-color: currentcolor;
+  --tw-border-opacity: 1;
+  border-color: rgb(243 244 246 / var(--tw-border-opacity, 1));
 }
 
 .subtask-form-btn.save {
@@ -228,6 +243,11 @@
   color: #337cf1;
 }
 
+.add-assignee-btn-subta:active {
+  background: #cddbf7;
+  color: #337cf1;
+}
+
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   .subtask-title {
@@ -285,6 +305,11 @@
     border-color: #4b5563;
     color: #60a5fa;
   }
+
+  .add-assignee-btn-subtask:active {
+  background: #cddbf7;
+  color: #337cf1;
+}
 }
 
 /* Responsive adjustments */

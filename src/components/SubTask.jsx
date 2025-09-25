@@ -1,11 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Plus, X, Check } from 'lucide-react';
+import AssigneeSelector from './AssigneeSelector'; // Import the AssigneeSelector component
 import '../styles/SubTask.css';
 
 const SubTask = ({ subtasks = [], onSubtasksUpdate, taskId }) => {
   const [localSubtasks, setLocalSubtasks] = useState(subtasks);
   const [isAddingNew, setIsAddingNew] = useState(false);
   const [newSubtaskTitle, setNewSubtaskTitle] = useState('');
+  const [assigneeSelectorState, setAssigneeSelectorState] = useState({
+    isOpen: false,
+    position: { top: 0, left: 0 },
+    subtaskId: null
+  });
   const inputRef = useRef(null);
 
   // Focus input when adding new subtask
@@ -36,7 +42,8 @@ const SubTask = ({ subtasks = [], onSubtasksUpdate, taskId }) => {
       const newSubtask = {
         id: `subtask_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         title: newSubtaskTitle.trim(),
-        completed: false
+        completed: false,
+        assignees: [] // Add assignees array for new subtasks
       };
       const updatedSubtasks = [...localSubtasks, newSubtask];
       setLocalSubtasks(updatedSubtasks);
@@ -70,23 +77,86 @@ const SubTask = ({ subtasks = [], onSubtasksUpdate, taskId }) => {
     }, 150);
   };
 
+  // Handle assignee button click
+  const handleAssigneeButtonClick = (event, subtaskId) => {
+    event.stopPropagation();
+    const buttonRect = event.target.getBoundingClientRect();
+    
+    setAssigneeSelectorState({
+      isOpen: true,
+      position: {
+        top: buttonRect.bottom + 5,
+        left: buttonRect.left
+      },
+      subtaskId: subtaskId
+    });
+  };
+
+  // Close assignee selector
+  const handleCloseAssigneeSelector = () => {
+    setAssigneeSelectorState({
+      isOpen: false,
+      position: { top: 0, left: 0 },
+      subtaskId: null
+    });
+  };
+
+  // Add assignee to subtask
+  const handleAssigneeAdd = (user) => {
+    const updatedSubtasks = localSubtasks.map(subtask => {
+      if (subtask.id === assigneeSelectorState.subtaskId) {
+        const currentAssignees = subtask.assignees || [];
+        const isAlreadyAssigned = currentAssignees.some(assignee => assignee.id === user.id);
+        
+        if (!isAlreadyAssigned) {
+          return {
+            ...subtask,
+            assignees: [...currentAssignees, user]
+          };
+        }
+      }
+      return subtask;
+    });
+    
+    setLocalSubtasks(updatedSubtasks);
+    onSubtasksUpdate && onSubtasksUpdate(taskId, updatedSubtasks);
+  };
+
+  // Remove assignee from subtask
+  const handleAssigneeRemove = (userId) => {
+    const updatedSubtasks = localSubtasks.map(subtask => {
+      if (subtask.id === assigneeSelectorState.subtaskId) {
+        const currentAssignees = subtask.assignees || [];
+        return {
+          ...subtask,
+          assignees: currentAssignees.filter(assignee => assignee.id !== userId)
+        };
+      }
+      return subtask;
+    });
+    
+    setLocalSubtasks(updatedSubtasks);
+    onSubtasksUpdate && onSubtasksUpdate(taskId, updatedSubtasks);
+  };
+
+  // Get current assignees for the selected subtask
+  const getCurrentAssignees = () => {
+    if (!assigneeSelectorState.subtaskId) return [];
+    const subtask = localSubtasks.find(s => s.id === assigneeSelectorState.subtaskId);
+    return subtask?.assignees || [];
+  };
+
   return (
     <div className="subtasks-container">
       {/* Subtasks List */}
       {localSubtasks.length > 0 && (
-        <div className="subtasks-list">
+        <>
+          <div className="subtasks-border-top"></div>
+          <div className="subtasks-list">
           {localSubtasks.map(subtask => (
             <div key={subtask.id} className="subtask-item">
               {/* Medium priority dot */}
               <div className="subtask-priority-dot"></div>
-              
-              <button
-                className={`subtask-checkbox ${subtask.completed ? 'completed' : ''}`}
-                onClick={() => handleToggleSubtask(subtask.id)}
-                title={subtask.completed ? 'Mark as incomplete' : 'Mark as complete'}
-              >
-                {subtask.completed && <Check size={12} />}
-              </button>
               
               <span 
                 className={`subtask-title ${subtask.completed ? 'completed' : ''}`}
@@ -96,15 +166,16 @@ const SubTask = ({ subtasks = [], onSubtasksUpdate, taskId }) => {
               </span>
               
               <button
-                className="subtask-delete"
-                onClick={() => handleDeleteSubtask(subtask.id)}
-                title="Delete subtask"
+                className="add-assignee-btn-subtask"
+                title="Add assignee"
+                onClick={(e) => handleAssigneeButtonClick(e, subtask.id)}
               >
-                <X size={12} />
+                <Plus size={12} />
               </button>
             </div>
           ))}
-        </div>
+          </div>
+        </>
       )}
 
       {/* Add New Subtask Form */}
@@ -142,21 +213,19 @@ const SubTask = ({ subtasks = [], onSubtasksUpdate, taskId }) => {
         </div>
       ) : (
         <div className="add-subtask-wrapper">
-          <button
-            className="add-subtask-btn"
-            onClick={() => setIsAddingNew(true)}
-            title="Add subtask"
-          >
-            <Plus size={12} />
-            <span>Add subtask</span>
-          </button>
-          
-          {/* Add assignee button for subtasks */}
-          <button className="add-assignee-btn-subtask" title="Add assignee">
-            <Plus size={12} />
-          </button>
+         
         </div>
       )}
+
+      {/* Assignee Selector Popup */}
+      <AssigneeSelector
+        isOpen={assigneeSelectorState.isOpen}
+        onClose={handleCloseAssigneeSelector}
+        position={assigneeSelectorState.position}
+        currentAssignees={getCurrentAssignees()}
+        onAssigneeAdd={handleAssigneeAdd}
+        onAssigneeRemove={handleAssigneeRemove}
+      />
     </div>
   );
 };

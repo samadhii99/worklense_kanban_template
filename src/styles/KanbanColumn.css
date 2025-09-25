@@ -101,9 +101,174 @@
 }
 
 .column-menu-button:hover {
-  background: #f3f4f6;
-  color: #6b7280;
+  background: rgba(163, 163, 163, 0.41);
+  border-radius: 50%;
 }
+
+
+
+/* Add these new styles to your existing KanbanColumn.css file */
+
+/* Column header positioning for dropdown */
+.column-header {
+  position: relative; /* Add this to enable absolute positioning for dropdown */
+  /* Keep all your existing column-header styles */
+}
+
+/* Column menu button - add position relative */
+.column-menu-button {
+  position: relative;
+  /* Keep all your existing column-menu-button styles */
+}
+
+/* Updated dropdown styles to match the design */
+
+/* Dropdown Menu Styles */
+.column-dropdown {
+ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: all .2s ease;
+  margin-top: 8px;
+  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / .1), 0 4px 6px -4px rgb(0 0 0 / .1);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow);
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+  --tw-border-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-border-opacity, 1));
+  border-width: 1px;
+  border-radius: .375rem;
+  width: 12rem;
+  z-index: 50;
+  top: 100%;
+  right: 0;
+  position: absolute;
+  box-sizing: border-box;
+}
+
+.dropdown-item {
+ background: none;
+  font-weight: 800;
+  color: #374151fa;
+  border: none;
+  transition: all .2s ease;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  text-align: left;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  gap: .5rem;
+  align-items: center;
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.dropdown-item:hover {
+  background-color: #f9fafb;
+}
+
+.dropdown-item.danger {
+  color: #dc2626;
+}
+
+.dropdown-item.danger:hover {
+  background-color: #fef2f2;
+}
+
+.dropdown-separator {
+  height: 1px;
+  background-color: #e5e7eb;
+  margin: 6px 0;
+}
+
+.dropdown-section {
+  padding: 0px 0;
+}
+
+.Change-Category {
+  transition: all .2s ease;
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity, 1));
+  letter-spacing: .025em;
+  text-transform: uppercase;
+ font-weight: 600;
+  font-size: .75rem;
+  line-height: 1rem;
+  padding-bottom: .5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-family: -apple-system,BlinkMacSystemFont,Inter,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji" !important;
+  margin: 0;
+}
+
+/* Style the category buttons */
+.dropdown-section button {
+  font-feature-settings: inherit;
+  font-variation-settings: inherit;
+  font-size: 100%;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system,BlinkMacSystemFont,Inter,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji" !important;
+  transition: all .2s ease;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  text-align: left;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  gap: .5rem;
+  align-items: center;
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  cursor: pointer;
+  -webkit-appearance: button;
+  background-color: transparent;
+  background-image: none;
+  text-transform: none;
+}
+
+.dropdown-section button:hover {
+  background-color: #f9fafb;
+}
+
+/* Add colored dots for categories */
+.dropdown-section button:before {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dropdown-section button:nth-child(2):before {
+  background-color: #6b7280; /* To do - gray */
+}
+
+.dropdown-section button:nth-child(3):before {
+  background-color: #3b82f6; /* Doing - blue */
+}
+
+.dropdown-section button:nth-child(4):before {
+  background-color: #10b981; /* Done - green */
+}
+
+.font-bold {
+  transition: all .2s ease;
+  font-weight: 700;
+  font-family: -apple-system,BlinkMacSystemFont,Inter,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji" !important;
+}
+
+
 
 .column-count {
  --tw-text-opacity: 1;
@@ -121,11 +286,16 @@
   padding: 4px;
   border-radius: 4px;
   transition: all 0.2s ease;
+  width: 24px;    /* Add fixed width */
+  height: 24px;   /* Add fixed height */
+  display: flex;  /* Center the icon/content */
+  align-items: center;
+  justify-content: center;
 }
 
 .add-task-button:hover {
-  background: #f3f4f6;
-  color: #6b7280;
+  background: rgba(169, 169, 169, 0.41);
+  border-radius: 50%;
 }
 
 .column-tasks {
@@ -266,3 +436,5 @@
     min-width: 280px;
   }
 }
+
+
