@@ -137,6 +137,7 @@
   vertical-align: middle;
 }
 
+
 .task-menu {
   background: none;
   border: none;
@@ -484,13 +485,15 @@
   color: rgb(239, 68, 68);
 }
 
+.context-menu-item.delete:hover {
+  background-color: #e5e7eb!important; ;
+}
+
 .context-menu-item:hover {
   background-color: #f3f4f6;
 }
 
-.context-menu-item.delete:hover {
-  background-color: #fef2f2;
-}
+
 
 /* Delete Modal Overlay */
 .delete-modal-overlay {
@@ -505,6 +508,7 @@
   justify-content: center;
   z-index: 100001;
   animation: fadeIn 0.2s ease;
+  pointer-events: auto;
 }
 
 @keyframes fadeIn {
@@ -525,6 +529,9 @@
   width: 90%;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   animation: slideUp 0.3s ease;
+  pointer-events: auto;
+  position: relative;
+  z-index: 100002;
 }
 
 @keyframes slideUp {
@@ -542,77 +549,130 @@
 .delete-modal-header {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 5px;
   margin-bottom: 16px;
 }
 
 .delete-modal-icon {
-  width: 40px;
+  width: 36px;
   height: 40px;
   border-radius: 50%;
-  background-color: #fef3c7;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #f59e0b;
+  color: #faad14;
   flex-shrink: 0;
 }
 
 .delete-modal-title {
-  font-size: 18px;
+  color: #262626;
   font-weight: 600;
-  color: #1f2937;
+  font-size: 16px;
+  line-height: 1.5;
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system,BlinkMacSystemFont,Inter,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji" !important;
 }
 
 /* Delete Modal Message */
 .delete-modal-message {
-  color: #6b7280;
+  color: #595959;
+  margin: -15px 0px 24px 40px;
   font-size: 14px;
-  line-height: 1.5;
-  margin: 0 0 24px 0;
+  line-height: 1.5714285714285714;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system,BlinkMacSystemFont,Inter,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji" !important;
 }
 
 /* Delete Modal Actions */
+/* Delete Modal Actions */
 .delete-modal-actions {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   justify-content: flex-end;
+  margin-top: 0px;
+  position: relative;
+  z-index: 10;
 }
 
 .delete-modal-btn {
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: none;
+  font-weight: 400 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
   font-family: inherit;
+  font-size: 14px !important;
+  height: 32px;
+  padding: 0px 15px !important;
+  border-radius: 6px !important;
+  outline: none;
+  position: relative;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  text-align: center;
+  z-index: 10;
+  pointer-events: auto !important;
 }
 
 .delete-modal-btn.cancel {
-  background: white;
-  color: #374151;
-  border: 1px solid #d1d5db;
+  background-color: white !important;
+  color: rgba(0,0,0,0.88) !important;
+  border: 1px solid #d1d5db !important;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.02);
 }
 
 .delete-modal-btn.cancel:hover {
-  background: #f9fafb;
-  border-color: #9ca3af;
+  border-color: #8dace4 !important;
+  color: #337cf1 !important;
+  background-color: white !important;
+}
+
+.delete-modal-btn.cancel:active {
+  border-color: #8dace4 !important;
+  color: #337cf1 !important;
 }
 
 .delete-modal-btn.delete {
-  background: #ef4444;
-  color: white;
-  border: 1px solid #ef4444;
+  border-color: #ff4d4f;
+  background: #fff;
+  color: #ff4d4f;
+  box-shadow: 0 2px 0 rgba(255,38,5,0.06);
 }
 
 .delete-modal-btn.delete:hover {
-  background: #dc2626;
-  border-color: #dc2626;
+  background: #dc2626 !important;
+  border-color: #dc2626 !important;
 }
 
+.assignee-more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #979393;
+  color: white;
+  font-size: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid white;
+  margin-left: -4px;
+  position: relative;
+  text-align: center;
+  align-items: center;
+}
+
+.assignee-more:hover {
+  background-color: #d5d5d5; /* slightly darker gray on hover */
+  color: #000;
+}
 /* Dark mode support for context menu and modal */
 @media (prefers-color-scheme: dark) {
   .task-context-menu {

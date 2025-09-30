@@ -42,7 +42,16 @@ const KanbanBoard = () => {
         distance: 8,
       },
     }),
-    useSensor(KeyboardSensor)
+    useSensor(KeyboardSensor, {
+      // Disable keyboard sensor when focus is on subtask items
+      coordinateGetter: (event, args) => {
+        // Don't handle keyboard events from subtask items
+        if (event.target.closest('.subtask-item')) {
+          return null;
+        }
+        return args.current;
+      }
+    })
   );
 
   const handleDragStart = (event) => {
@@ -112,6 +121,48 @@ const KanbanBoard = () => {
     }));
   };
 
+  // ===== TASK DELETE HANDLER =====
+  const handleTaskDelete = (taskId) => {
+    setData(prevData => {
+      const newData = { ...prevData };
+      const task = newData.tasks[taskId];
+      
+      if (!task) return prevData;
+      
+      // Remove task from its column's taskIds
+      const columnId = task.columnId;
+      if (newData.columns[columnId]) {
+        newData.columns[columnId].taskIds = newData.columns[columnId].taskIds.filter(
+          id => id !== taskId
+        );
+      }
+      
+      // Remove task from tasks object
+      const { [taskId]: deletedTask, ...remainingTasks } = newData.tasks;
+      newData.tasks = remainingTasks;
+      
+      return newData;
+    });
+    
+    console.log('Task deleted:', taskId);
+  };
+
+  // ===== TASK UPDATE HANDLER =====
+  const handleTaskUpdate = (taskId, updates) => {
+    setData(prevData => ({
+      ...prevData,
+      tasks: {
+        ...prevData.tasks,
+        [taskId]: {
+          ...prevData.tasks[taskId],
+          ...updates
+        }
+      }
+    }));
+    
+    console.log('Task updated:', taskId, updates);
+  };
+
   const filteredTasks = useMemo(() => {
     if (!searchTerm) return data.tasks;
     
@@ -166,6 +217,8 @@ const KanbanBoard = () => {
                   column={column}
                   tasks={tasks}
                   onAddTask={handleAddTask}
+                  onTaskDelete={handleTaskDelete}
+                  onTaskUpdate={handleTaskUpdate}
                 />
               );
             })}
@@ -175,7 +228,12 @@ const KanbanBoard = () => {
         <DragOverlay>
           {activeTask && (
             <div className="drag-overlay">
-              <TaskCard task={activeTask} isDragging={true} />
+              <TaskCard 
+                task={activeTask} 
+                isDragging={true}
+                onTaskDelete={handleTaskDelete}
+                onTaskUpdate={handleTaskUpdate}
+              />
             </div>
           )}
         </DragOverlay>

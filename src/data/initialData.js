@@ -23,7 +23,7 @@ export const initialData = {
   tasks: {
     'task-1': {
       id: 'task-1',
-      title: 'In the admin panel, when I clic...',
+      title: 'In the admin panel, when I click on a student',
       tags: ['ux-ui', 'ai'],
       priority: 'high',
       progress: 33, // 1 of 3 subtasks completed
@@ -113,7 +113,7 @@ export const initialData = {
     },
     'task-7': {
       id: 'task-7',
-      title: 'In the admin panel, the student...',
+      title: 'In the admin panel, the student will refference ID',
       tags: ['ux-ui', 'ai'],
       priority: 'high',
       progress: 100, // Completed - will show checkmark
@@ -128,7 +128,7 @@ export const initialData = {
     },
     'task-8': {
       id: 'task-8',
-      title: 'In the admin panel. When user...',
+      title: 'In the admin panel. When users click on a student',
       tags: ['ux-ui', 'ai'],
       priority: 'medium',
       progress: 100, // Completed - will show checkmark
@@ -143,7 +143,7 @@ export const initialData = {
     },
     'task-9': {
       id: 'task-9',
-      title: 'In the Student profile dashboar...',
+      title: 'In the Student profile dashboard, the student refference ID',
       tags: ['ux-ui', 'ai'],
       priority: 'low',
       progress: 100, // Completed - will show checkmark

@@ -10,7 +10,7 @@ import { CSS } from '@dnd-kit/utilities';
 import TaskCard from './TaskCard';
 import '../styles/KanbanColumn.css';
 
-const KanbanColumn = ({ column, tasks, onAddTask }) => {
+const KanbanColumn = ({ column, tasks, onAddTask, onTaskDelete, onTaskUpdate }) => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
@@ -87,12 +87,12 @@ const KanbanColumn = ({ column, tasks, onAddTask }) => {
               <div className="dropdown-overlay" onClick={handleDropdownClose} />
               <div className="column-dropdown">
                 <button 
-  className="dropdown-item" 
-  onClick={() => handleDropdownAction('edit')}
->
-  <SquarePen size={14} />
-  Rename
-</button>
+                  className="dropdown-item" 
+                  onClick={() => handleDropdownAction('edit')}
+                >
+                  <SquarePen size={14} />
+                  Rename
+                </button>
                 
                 <div className="dropdown-separator" />
                 
@@ -127,7 +127,12 @@ const KanbanColumn = ({ column, tasks, onAddTask }) => {
       <div className="column-tasks">
         <SortableContext items={tasks.map(task => task.id)} strategy={verticalListSortingStrategy}>
           {tasks.map(task => (
-            <TaskCard key={task.id} task={task} />
+            <TaskCard 
+              key={task.id} 
+              task={task}
+              onTaskDelete={onTaskDelete}
+              onTaskUpdate={onTaskUpdate}
+            />
           ))}
         </SortableContext>
         

@@ -500,7 +500,7 @@ const TaskCard = ({ task, isDragging, onTaskUpdate, onTaskDelete }) => {
         <div className="task-header">
           <div className="task-title-section">
             <div className={`task-priority ${task.priority}`}></div>
-            <h4 className="task-title">{task.title}</h4>
+            <h4 className="task-title" title={task.title}>{task.title}</h4>
           </div>
           <button 
             className="task-menu"
@@ -518,13 +518,14 @@ const TaskCard = ({ task, isDragging, onTaskUpdate, onTaskDelete }) => {
             className="task-date"
             onClick={handleDateClick}
             onPointerDown={handleInteractivePointerDown}
+            title="Click to change date"
           >
             {taskDueDate}
           </button>
           
           <div className="task-right-section">
             <div className="task-assignees">
-              {taskAssignees.map((assignee, index) => (
+              {taskAssignees.slice(0, 3).map((assignee, index) => (
                 <img
                   key={assignee.id}
                   src={assignee.avatar}
@@ -533,6 +534,11 @@ const TaskCard = ({ task, isDragging, onTaskUpdate, onTaskDelete }) => {
                   title={assignee.name || `Assignee ${assignee.id}`}
                 />
               ))}
+              {taskAssignees.length > 3 && (
+                <div className="assignee-more" title={taskAssignees.slice(3).map(a => a.name).join(', ')}>
+                  +{taskAssignees.length - 3}
+                </div>
+              )}
               <button 
                 ref={addAssigneeButtonRef}
                 className={`add-assignee-btn ${showAssigneeSelector ? 'active' : ''}`}
@@ -542,7 +548,7 @@ const TaskCard = ({ task, isDragging, onTaskUpdate, onTaskDelete }) => {
               >
                 <Plus size={12} />
               </button>
-            </div> 
+            </div>
 
             {taskSubtasks && taskSubtasks.length > 0 && (
               <button
@@ -641,7 +647,7 @@ const TaskCard = ({ task, isDragging, onTaskUpdate, onTaskDelete }) => {
           <div className="delete-modal">
             <div className="delete-modal-header">
               <div className="delete-modal-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
                 </svg>
               </div>
