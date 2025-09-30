@@ -1,4 +1,4 @@
-// Updated TaskCard.jsx with Portal-based DatePicker, AssigneeSelector, Date Selection, and SubTask Integration
+// Updated TaskCard.jsx with Portal-based DatePicker, AssigneeSelector, Date Selection, SubTask Integration, and Right-Click Delete
 
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
@@ -299,7 +299,7 @@ const DatePicker = ({ isOpen, onClose, currentDate, onDateSelect, position }) =>
   return createPortal(datePickerContent, document.body);
 };
 
-const TaskCard = ({ task, isDragging, onTaskUpdate }) => {
+const TaskCard = ({ task, isDragging, onTaskUpdate, onTaskDelete }) => {
   const [showSubtasks, setShowSubtasks] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showAssigneeSelector, setShowAssigneeSelector] = useState(false);
@@ -308,6 +308,13 @@ const TaskCard = ({ task, isDragging, onTaskUpdate }) => {
   const [taskDueDate, setTaskDueDate] = useState(task.dueDate);
   const [taskAssignees, setTaskAssignees] = useState(task.assignees || []);
   const [taskSubtasks, setTaskSubtasks] = useState(task.subtasks || []);
+  const [contextMenu, setContextMenu] = useState({
+    isOpen: false,
+    position: { x: 0, y: 0 }
+  });
+  const [deleteModal, setDeleteModal] = useState({
+    isOpen: false
+  });
   const dateButtonRef = useRef(null);
   const addAssigneeButtonRef = useRef(null);
   const cardRef = useRef(null);
@@ -323,6 +330,44 @@ const TaskCard = ({ task, isDragging, onTaskUpdate }) => {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+  };
+
+  // Close context menu when clicking anywhere
+  useEffect(() => {
+    const handleClick = () => {
+      if (contextMenu.isOpen) {
+        setContextMenu({ isOpen: false, position: { x: 0, y: 0 } });
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
+  }, [contextMenu.isOpen]);
+
+  const handleRightClick = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    setContextMenu({
+      isOpen: true,
+      position: { x: event.clientX, y: event.clientY }
+    });
+  };
+
+  const handleDeleteClick = () => {
+    setDeleteModal({ isOpen: true });
+    setContextMenu({ isOpen: false, position: { x: 0, y: 0 } });
+  };
+
+  const handleConfirmDelete = () => {
+    if (onTaskDelete) {
+      onTaskDelete(task.id);
+    }
+    setDeleteModal({ isOpen: false });
+  };
+
+  const handleCancelDelete = () => {
+    setDeleteModal({ isOpen: false });
   };
 
   const handleDateClick = (event) => {
@@ -435,6 +480,7 @@ const TaskCard = ({ task, isDragging, onTaskUpdate }) => {
         {...attributes}
         {...listeners}
         className={`task-card ${isDragging ? 'dragging' : ''}`}
+        onContextMenu={handleRightClick}
       >
         {/* Tags at the top */}
         <div className="task-tags">
@@ -566,6 +612,56 @@ const TaskCard = ({ task, isDragging, onTaskUpdate }) => {
         onAssigneeAdd={handleAssigneeAdd}
         onAssigneeRemove={handleAssigneeRemove}
       />
+
+      {/* Context Menu */}
+      {contextMenu.isOpen && createPortal(
+        <div
+          className="task-context-menu"
+          style={{
+            position: 'fixed',
+            top: `${contextMenu.position.y}px`,
+            left: `${contextMenu.position.x}px`,
+            zIndex: 100000
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button className="context-menu-item delete" onClick={handleDeleteClick}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
+            </svg>
+            Delete
+          </button>
+        </div>,
+        document.body
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {deleteModal.isOpen && createPortal(
+        <div className="delete-modal-overlay">
+          <div className="delete-modal">
+            <div className="delete-modal-header">
+              <div className="delete-modal-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                </svg>
+              </div>
+              <h3 className="delete-modal-title">Delete Task</h3>
+            </div>
+            <p className="delete-modal-message">
+              Are you sure you want to delete this task? This action cannot be undone.
+            </p>
+            <div className="delete-modal-actions">
+              <button className="delete-modal-btn cancel" onClick={handleCancelDelete}>
+                Cancel
+              </button>
+              <button className="delete-modal-btn delete" onClick={handleConfirmDelete}>
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </>
   );
 };

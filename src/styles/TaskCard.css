@@ -423,3 +423,231 @@
     height: 20px;
   }
 }
+
+
+/* ========================================
+   CONTEXT MENU & DELETE MODAL STYLES
+   Add these to the end of your TaskCard.css file
+   ======================================== */
+
+/* Context Menu Styles for TaskCard */
+.task-context-menu {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  padding: 4px;
+  min-width: 140px;
+  z-index: 100000;
+  background: rgb(255, 255, 255);
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 8px;
+  padding: 0px;
+  min-width: 120px;
+}
+
+.context-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 16px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  font-family: inherit;
+  font-weight: 500;
+  text-align: left;
+  height: 32px;
+  outline: none;
+  position: relative;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  white-space: nowrap;
+  text-align: center;
+  background-image: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  user-select: none;
+  touch-action: manipulation;
+  color: rgba(0,0,0,0.88);
+  font-family: -apple-system,BlinkMacSystemFont,Inter,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji";
+}
+
+.context-menu-item.delete {
+  color: rgb(239, 68, 68);
+}
+
+.context-menu-item:hover {
+  background-color: #f3f4f6;
+}
+
+.context-menu-item.delete:hover {
+  background-color: #fef2f2;
+}
+
+/* Delete Modal Overlay */
+.delete-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100001;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Delete Modal */
+.delete-modal {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Delete Modal Header */
+.delete-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.delete-modal-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #fef3c7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f59e0b;
+  flex-shrink: 0;
+}
+
+.delete-modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+/* Delete Modal Message */
+.delete-modal-message {
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 0 24px 0;
+}
+
+/* Delete Modal Actions */
+.delete-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.delete-modal-btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  font-family: inherit;
+}
+
+.delete-modal-btn.cancel {
+  background: white;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.delete-modal-btn.cancel:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.delete-modal-btn.delete {
+  background: #ef4444;
+  color: white;
+  border: 1px solid #ef4444;
+}
+
+.delete-modal-btn.delete:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+}
+
+/* Dark mode support for context menu and modal */
+@media (prefers-color-scheme: dark) {
+  .task-context-menu {
+    background: #1f2937;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  .context-menu-item {
+    color: #d1d5db;
+  }
+
+  .context-menu-item:hover {
+    background-color: #374151;
+  }
+
+  .delete-modal {
+    background: #1f2937;
+  }
+
+  .delete-modal-title {
+    color: #f9fafb;
+  }
+
+  .delete-modal-message {
+    color: #9ca3af;
+  }
+
+  .delete-modal-btn.cancel {
+    background: #374151;
+    color: #d1d5db;
+    border-color: #4b5563;
+  }
+
+  .delete-modal-btn.cancel:hover {
+    background: #4b5563;
+    border-color: #6b7280;
+  }
+}

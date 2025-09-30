@@ -360,3 +360,45 @@
     transform: translateY(0);
   }
 }
+
+
+
+
+/* Subtask Assignees Wrapper - contains avatars and add button */
+.subtask-assignees-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* Subtask Assignees Container - holds avatar images */
+.subtask-assignees {
+  display: flex;
+  align-items: center;
+  gap: -4px;
+}
+
+/* Subtask Assignee Avatar - matches TaskCard style but smaller */
+.subtask-assignee-avatar {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+  margin-left: -4px;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.subtask-assignee-avatar:first-child {
+  margin-left: 0;
+}
+
+.subtask-assignee-avatar:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 1;
+}

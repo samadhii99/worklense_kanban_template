@@ -165,13 +165,31 @@ const SubTask = ({ subtasks = [], onSubtasksUpdate, taskId }) => {
                 {subtask.title}
               </span>
               
-              <button
-                className="add-assignee-btn-subtask"
-                title="Add assignee"
-                onClick={(e) => handleAssigneeButtonClick(e, subtask.id)}
-              >
-                <Plus size={12} />
-              </button>
+              <div className="subtask-assignees-wrapper">
+                {/* Display assigned avatars */}
+                {subtask.assignees && subtask.assignees.length > 0 && (
+                  <div className="subtask-assignees">
+                    {subtask.assignees.map((assignee) => (
+                      <img
+                        key={assignee.id}
+                        src={assignee.avatar}
+                        alt={assignee.name || `Assignee ${assignee.id}`}
+                        className="subtask-assignee-avatar"
+                        title={assignee.name || `Assignee ${assignee.id}`}
+                      />
+                    ))}
+                  </div>
+                )}
+                
+                {/* Add assignee button */}
+                <button
+                  className="add-assignee-btn-subtask"
+                  title="Add assignee"
+                  onClick={(e) => handleAssigneeButtonClick(e, subtask.id)}
+                >
+                  <Plus size={12} />
+                </button>
+              </div>
             </div>
           ))}
           </div>
