@@ -1,4 +1,4 @@
-// TaskCard.jsx - Fixed drag styling (COMPLETE FILE)
+// TaskCard.jsx - Fixed drag styling and context menu (COMPLETE FILE)
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Plus, Calendar, MoreHorizontal, ChevronDown, ChevronRight, ChevronLeft } from 'lucide-react';
@@ -327,20 +327,34 @@ const TaskCard = ({ task, isDragging, onTaskUpdate, onTaskDelete }) => {
     transition,
   };
 
+  // Close context menu when clicking outside
   useEffect(() => {
-    const handleClick = () => {
-      if (contextMenu.isOpen) {
+    const handleClick = (e) => {
+      if (contextMenu.isOpen && !e.target.closest('.task-context-menu, .subtask-context-menu')) {
         setContextMenu({ isOpen: false, position: { x: 0, y: 0 } });
       }
     };
 
-    document.addEventListener('click', handleClick);
-    return () => document.removeEventListener('click', handleClick);
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
   }, [contextMenu.isOpen]);
+
+  // Listen for close all context menus event
+  useEffect(() => {
+    const handleCloseAll = () => {
+      setContextMenu({ isOpen: false, position: { x: 0, y: 0 } });
+    };
+    
+    document.addEventListener('closeAllContextMenus', handleCloseAll);
+    return () => document.removeEventListener('closeAllContextMenus', handleCloseAll);
+  }, []);
 
   const handleRightClick = (event) => {
     event.preventDefault();
     event.stopPropagation();
+    
+    // Close all other context menus first
+    document.dispatchEvent(new CustomEvent('closeAllContextMenus'));
     
     setContextMenu({
       isOpen: true,

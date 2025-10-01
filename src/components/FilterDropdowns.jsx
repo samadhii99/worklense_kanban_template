@@ -1,5 +1,5 @@
 // components/FilterDropdowns.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { availableLabels, groupByOptions } from '../data/filterData';
 import '../styles/FilterDropdowns.css';
@@ -115,12 +115,7 @@ const GroupByDropdown = ({ selectedGroupBy, setSelectedGroupBy, setActiveFilters
             className={`group-by-option ${selectedGroupBy === option.name ? 'selected' : ''}`}
             onClick={() => handleGroupBySelect(option.name)}
           >
-            <input
-              type="radio"
-              name="groupBy"
-              checked={selectedGroupBy === option.name}
-              readOnly
-            />
+            
             <span>{option.name}</span>
           </div>
         ))}

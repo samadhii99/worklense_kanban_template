@@ -1,5 +1,5 @@
 // components/KanbanHeader.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Search, ChevronDown, Tag, UsersRound } from 'lucide-react';
 import { FlagOutlined, GroupOutlined, SettingOutlined } from '@ant-design/icons';
 import FilterDropdowns from './FilterDropdowns';
@@ -21,11 +21,52 @@ const KanbanHeader = ({
   selectedGroupBy,
   setSelectedGroupBy
 }) => {
+  const [isSearchExpanded, setIsSearchExpanded] = React.useState(false);
+
+  // Close all dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      // Check if click is outside filter dropdowns
+      if (!e.target.closest('.filter-wrapper') && !e.target.closest('.filter-button')) {
+        setActiveFilters({
+          priority: false,
+          labels: false,
+          members: false,
+          group: false
+        });
+      }
+      
+      // Check if click is outside search input
+      if (!e.target.closest('.search-input')) {
+        setIsSearchExpanded(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [setActiveFilters]);
+
   const toggleFilter = (filterName) => {
-    setActiveFilters(prev => ({
-      ...prev,
-      [filterName]: !prev[filterName]
-    }));
+    setActiveFilters(prev => {
+      // Close all filters first
+      const allClosed = {
+        priority: false,
+        labels: false,
+        members: false,
+        group: false
+      };
+      
+      // If the clicked filter was already open, keep everything closed
+      // Otherwise, open only the clicked filter
+      if (prev[filterName]) {
+        return allClosed;
+      } else {
+        return {
+          ...allClosed,
+          [filterName]: true
+        };
+      }
+    });
   };
 
   const dropdownProps = {
@@ -43,20 +84,62 @@ const KanbanHeader = ({
     setSelectedGroupBy
   };
 
+  const handleSearchClick = () => {
+    setIsSearchExpanded(true);
+  };
+
+  const handleSearchCancel = () => {
+    setSearchTerm('');
+    setIsSearchExpanded(false);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    setIsSearchExpanded(false);
+  };
+
   return (
     <div className="kanban-header">
       <h1 className="kanban-title">Kanban Board</h1>
       
       <div className="kanban-filters">
-        <div className="search-input">
+        <div className={`search-input ${isSearchExpanded ? 'expanded' : ''}`} onClick={handleSearchClick}>
           <Search size={16} />
           <input
             type="text"
-            placeholder="Search"
+            placeholder="Search tasks by name or key..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleSearchSubmit(e);
+              }
+            }}
           />
         </div>
+        
+        {isSearchExpanded && (
+          <>
+            <button 
+              className="search-action-btn search-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSearchSubmit(e);
+              }}
+            >
+              Search
+            </button>
+            <button 
+              className="search-action-btn cancel-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSearchCancel();
+              }}
+            >
+              Cancel
+            </button>
+          </>
+        )}
         
         <div className="filter-wrapper">
           <button 
@@ -133,10 +216,7 @@ const KanbanHeader = ({
           )}
         </div>
 
-        <button className="manage-statuses-btn">
-          <SettingOutlined style={{ fontSize: '16px' }} />
-          Manage Statuses
-        </button>
+        
       </div>
     </div>
   );

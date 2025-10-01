@@ -32,17 +32,27 @@ const SubTask = ({ subtasks = [], onSubtasksUpdate, taskId }) => {
     }
   }, [isAddingNew]);
 
-  // Close context menu when clicking anywhere
+  // Close context menu when clicking outside
   useEffect(() => {
-    const handleClick = () => {
-      if (contextMenu.isOpen) {
+    const handleClick = (e) => {
+      if (contextMenu.isOpen && !e.target.closest('.task-context-menu, .subtask-context-menu')) {
         setContextMenu({ isOpen: false, position: { x: 0, y: 0 }, subtaskId: null });
       }
     };
 
-    document.addEventListener('click', handleClick);
-    return () => document.removeEventListener('click', handleClick);
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
   }, [contextMenu.isOpen]);
+
+  // Listen for close all context menus event
+  useEffect(() => {
+    const handleCloseAll = () => {
+      setContextMenu({ isOpen: false, position: { x: 0, y: 0 }, subtaskId: null });
+    };
+    
+    document.addEventListener('closeAllContextMenus', handleCloseAll);
+    return () => document.removeEventListener('closeAllContextMenus', handleCloseAll);
+  }, []);
 
   const handleToggleSubtask = (subtaskId) => {
     const updatedSubtasks = localSubtasks.map(subtask =>
@@ -93,6 +103,9 @@ const SubTask = ({ subtasks = [], onSubtasksUpdate, taskId }) => {
   const handleSubtaskContextMenu = (e, subtaskId) => {
     e.preventDefault();
     e.stopPropagation();
+    
+    // Close all other context menus first
+    document.dispatchEvent(new CustomEvent('closeAllContextMenus'));
     
     setContextMenu({
       isOpen: true,

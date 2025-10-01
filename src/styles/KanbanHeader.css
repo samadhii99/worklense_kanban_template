@@ -33,20 +33,82 @@
   background: #f9fafb;
   border: 1px solid #e5e7eb;
   border-radius: 6px;
-  min-width: 200px;
+  width: 70px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  --tw-text-opacity: 1;
+  color: rgb(55 65 81 / var(--tw-text-opacity, 1));
 }
 
 .search-input input {
   border: none;
   outline: none;
   font-size: 14px;
-  color: #374151;
+  --tw-text-opacity: 1;
+  color: rgb(55 65 81 / var(--tw-text-opacity, 1));
   flex: 1;
   background: transparent;
+  pointer-events: none;
+  width: 0;
+}
+
+.search-input.expanded {
+  width: 212px;
+  cursor: default;
+}
+
+.search-input.expanded input {
+  pointer-events: auto;
 }
 
 .search-input input::placeholder {
-  color: #9ca3af;
+      --tw-text-opacity: 1;
+      color: rgb(55 65 81 / var(--tw-text-opacity, 1));
+}
+
+.search-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 8px;
+}
+
+.search-action-btn {
+  transition: all 0.2s ease;
+    transition-duration: 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition-duration: .2s;
+  font-weight: 500;
+  font-size: .75rem;
+  line-height: 1rem;
+  padding-top: .375rem;
+  padding-bottom: .375rem;
+  padding-left: .625rem;
+  padding-right: .625rem;
+  border-radius: .375rem;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.search-btn {
+  --tw-text-opacity: 1;
+  color: rgb(31 41 55 / var(--tw-text-opacity, 1) 1 );
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1));
+}
+
+
+
+.cancel-btn {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.cancel-btn:hover {
+  background: #e5e7eb;
+  color: #374151;
 }
 
 .filter-wrapper {
@@ -60,7 +122,7 @@
   gap: 6px;
   padding: 5px 12px;
   background: white;
-  border: 1px solid #d1d5db;
+  border: 1px solid #e5e7eb;
   border-radius: 6px;
   font-size: 14px;
   color: #6b7280;
@@ -69,7 +131,24 @@
   font-weight: 500;
   position: relative;
   margin: 4px;
+  color: rgb(55 65 81 / var(--tw-text-opacity, 1));
 }
+
+.filter-button:has([data-icon="group"]) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1));
+}
+
+.filter-button:has([data-icon="group"]):hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1));
+}
+
+.filter-button:has([data-icon="group"]).active {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1));
+}
+
 
 .filter-button:hover {
   background: #f9fafb;
@@ -128,6 +207,10 @@
   }
   
   .search-input {
-    min-width: 180px;
+    width: 100px;
+  }
+  
+  .search-input.expanded {
+    width: 100%;
   }
 }
