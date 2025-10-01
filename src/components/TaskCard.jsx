@@ -1,5 +1,4 @@
-// Updated TaskCard.jsx with Portal-based DatePicker, AssigneeSelector, Date Selection, SubTask Integration, and Right-Click Delete
-
+// TaskCard.jsx - Fixed drag styling (COMPLETE FILE)
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Plus, Calendar, MoreHorizontal, ChevronDown, ChevronRight, ChevronLeft } from 'lucide-react';
@@ -11,7 +10,6 @@ import SubTask from './SubTask';
 import '../styles/TaskCard.css';
 import '../styles/DatePicker.css';
 
-// Add the TaskProgressCircle component
 const TaskProgressCircle = ({ task, size = 28 }) => {
   const progress = typeof task.complete_ratio === 'number'
     ? task.complete_ratio
@@ -75,7 +73,6 @@ const TaskProgressCircle = ({ task, size = 28 }) => {
   );
 };
 
-// Date Picker Component with React Portal
 const DatePicker = ({ isOpen, onClose, currentDate, onDateSelect, position }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(currentDate ? new Date(currentDate) : new Date());
@@ -188,13 +185,11 @@ const DatePicker = ({ isOpen, onClose, currentDate, onDateSelect, position }) =>
 
   const days = getDaysInMonth(currentMonth);
 
-  // Calculate final position
   const pickerWidth = 208;
   const pickerHeight = 300;
   let finalTop = position.top;
   let finalLeft = position.left;
 
-  // Adjust if going off screen
   if (finalLeft + pickerWidth > window.innerWidth) {
     finalLeft = window.innerWidth - pickerWidth - 10;
   }
@@ -207,7 +202,6 @@ const DatePicker = ({ isOpen, onClose, currentDate, onDateSelect, position }) =>
 
   const datePickerContent = (
     <>
-      {/* Backdrop */}
       <div 
         className="date-picker-backdrop" 
         onClick={onClose}
@@ -222,7 +216,6 @@ const DatePicker = ({ isOpen, onClose, currentDate, onDateSelect, position }) =>
         }}
       />
       
-      {/* Date Picker Popup */}
       <div 
         ref={datePickerRef}
         className="date-picker-popup"
@@ -295,7 +288,6 @@ const DatePicker = ({ isOpen, onClose, currentDate, onDateSelect, position }) =>
     </>
   );
 
-  // Use React Portal to render outside of component tree
   return createPortal(datePickerContent, document.body);
 };
 
@@ -325,14 +317,16 @@ const TaskCard = ({ task, isDragging, onTaskUpdate, onTaskDelete }) => {
     setNodeRef,
     transform,
     transition,
-  } = useSortable({ id: task.id });
+    isDragging: isSortableDragging,
+  } = useSortable({ 
+    id: task.id,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
   };
 
-  // Close context menu when clicking anywhere
   useEffect(() => {
     const handleClick = () => {
       if (contextMenu.isOpen) {
@@ -401,12 +395,9 @@ const TaskCard = ({ task, isDragging, onTaskUpdate, onTaskDelete }) => {
     setTaskDueDate(formattedDate);
     setShowDatePicker(false);
     
-    // Optional: Call parent update function if provided
     if (onTaskUpdate) {
       onTaskUpdate(task.id, { dueDate: formattedDate });
     }
-    
-    console.log('Selected date:', formattedDate);
   };
 
   const handleAddAssigneeClick = (event) => {
@@ -428,39 +419,28 @@ const TaskCard = ({ task, isDragging, onTaskUpdate, onTaskDelete }) => {
     const newAssignees = [...taskAssignees, { id: user.id, avatar: user.avatar, name: user.name }];
     setTaskAssignees(newAssignees);
     
-    // Optional: Call parent update function if provided
     if (onTaskUpdate) {
       onTaskUpdate(task.id, { assignees: newAssignees });
     }
-    
-    console.log('Added assignee:', user);
   };
 
   const handleAssigneeRemove = (userId) => {
     const newAssignees = taskAssignees.filter(assignee => assignee.id !== userId);
     setTaskAssignees(newAssignees);
     
-    // Optional: Call parent update function if provided
     if (onTaskUpdate) {
       onTaskUpdate(task.id, { assignees: newAssignees });
     }
-    
-    console.log('Removed assignee:', userId);
   };
 
   const handleSubtasksUpdate = (taskId, updatedSubtasks) => {
-    // Update local state
     setTaskSubtasks(updatedSubtasks);
     
-    // Call parent update function if provided
     if (onTaskUpdate) {
       onTaskUpdate(taskId, { subtasks: updatedSubtasks });
     }
-    
-    console.log('Updated subtasks for task:', taskId, updatedSubtasks);
   };
 
-  // Prevent dragging when clicking on interactive elements
   const handleInteractiveClick = (event) => {
     event.stopPropagation();
   };
@@ -469,20 +449,15 @@ const TaskCard = ({ task, isDragging, onTaskUpdate, onTaskDelete }) => {
     event.stopPropagation();
   };
 
-  return (
-    <>
-      <div
-        ref={(node) => {
-          setNodeRef(node);
-          cardRef.current = node;
+  // If this is the drag overlay, render simplified version without sortable
+  if (isDragging) {
+    return (
+      <div 
+        className="task-card dragging"
+        style={{
+          cursor: 'grabbing',
         }}
-        style={style}
-        {...attributes}
-        {...listeners}
-        className={`task-card ${isDragging ? 'dragging' : ''}`}
-        onContextMenu={handleRightClick}
       >
-        {/* Tags at the top */}
         <div className="task-tags">
           <div className="tags-left">
             {task.tags.map(tag => (
@@ -496,7 +471,98 @@ const TaskCard = ({ task, isDragging, onTaskUpdate, onTaskDelete }) => {
           </div>
         </div>
         
-        {/* Title with priority indicator */}
+        <div className="task-header">
+          <div className="task-title-section">
+            <div className={`task-priority ${task.priority}`}></div>
+            <h4 className="task-title" title={task.title}>{task.title}</h4>
+          </div>
+          <button className="task-menu">
+            <MoreHorizontal size={16} />
+          </button>
+        </div>
+        
+        <div className="task-footer">
+          <button className="task-date">
+            {taskDueDate}
+          </button>
+          
+          <div className="task-right-section">
+            <div className="task-assignees">
+              {taskAssignees.slice(0, 3).map((assignee, index) => (
+                <img
+                  key={assignee.id}
+                  src={assignee.avatar}
+                  alt={assignee.name || `Assignee ${assignee.id}`}
+                  className="assignee-avatar"
+                />
+              ))}
+              {taskAssignees.length > 3 && (
+                <div className="assignee-more">
+                  +{taskAssignees.length - 3}
+                </div>
+              )}
+              <button className="add-assignee-btn">
+                <Plus size={12} />
+              </button>
+            </div>
+
+            {taskSubtasks && taskSubtasks.length > 0 && (
+              <button
+                type="button"
+                className="subtask-toggle-fork"
+              >
+                <svg 
+                  className="fork-svg-icon" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M6 3v2a2 2 0 002 2h4a2 2 0 002 2v2" strokeLinecap="round" />
+                  <circle cx="6" cy="3" r="2" fill="currentColor" />
+                  <circle cx="16" cy="9" r="2" fill="currentColor" />
+                  <circle cx="6" cy="17" r="2" fill="currentColor" />
+                  <path d="M6 5v10" strokeLinecap="round" />
+                </svg>
+                
+                <span className="subtask-count">
+                  {taskSubtasks?.length || 0}
+                </span>
+                
+                <ChevronRight size={12} />
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <div
+        ref={(node) => {
+          setNodeRef(node);
+          cardRef.current = node;
+        }}
+        style={style}
+        {...attributes}
+        {...listeners}
+        className="task-card"
+        onContextMenu={handleRightClick}
+      >
+        <div className="task-tags">
+          <div className="tags-left">
+            {task.tags.map(tag => (
+              <span key={tag} className={`task-tag ${tag}`}>
+                {tagLabels[tag] || tag}
+              </span>
+            ))}
+          </div>
+          <div className="task-progress-wrapper">
+            <TaskProgressCircle task={task} size={20} />
+          </div>
+        </div>
+        
         <div className="task-header">
           <div className="task-title-section">
             <div className={`task-priority ${task.priority}`}></div>
@@ -511,7 +577,6 @@ const TaskCard = ({ task, isDragging, onTaskUpdate, onTaskDelete }) => {
           </button>
         </div>
         
-        {/* Footer with date and assignees */}
         <div className="task-footer">
           <button 
             ref={dateButtonRef}
@@ -588,7 +653,6 @@ const TaskCard = ({ task, isDragging, onTaskUpdate, onTaskDelete }) => {
           </div>
         </div>
         
-        {/* Subtasks Container - positioned after the footer */}
         {showSubtasks && (
           <div className="subtasks-container-wrapper">
             <SubTask 
@@ -600,7 +664,6 @@ const TaskCard = ({ task, isDragging, onTaskUpdate, onTaskDelete }) => {
         )}
       </div>
 
-      {/* Date Picker rendered as Portal */}
       <DatePicker
         isOpen={showDatePicker}
         onClose={() => setShowDatePicker(false)}
@@ -609,7 +672,6 @@ const TaskCard = ({ task, isDragging, onTaskUpdate, onTaskDelete }) => {
         position={datePickerPosition}
       />
 
-      {/* Assignee Selector rendered as Portal */}
       <AssigneeSelector
         isOpen={showAssigneeSelector}
         onClose={() => setShowAssigneeSelector(false)}
@@ -619,7 +681,6 @@ const TaskCard = ({ task, isDragging, onTaskUpdate, onTaskDelete }) => {
         onAssigneeRemove={handleAssigneeRemove}
       />
 
-      {/* Context Menu */}
       {contextMenu.isOpen && createPortal(
         <div
           className="task-context-menu"
@@ -641,7 +702,6 @@ const TaskCard = ({ task, isDragging, onTaskUpdate, onTaskDelete }) => {
         document.body
       )}
 
-      {/* Delete Confirmation Modal */}
       {deleteModal.isOpen && createPortal(
         <div className="delete-modal-overlay">
           <div className="delete-modal">

@@ -1,4 +1,4 @@
-// components/KanbanColumn.jsx
+// components/KanbanColumn.jsx - Fixed
 import React, { useState } from 'react';
 import { Plus, MoreHorizontal, SquarePen, Trash2 } from 'lucide-react';
 import {
@@ -10,7 +10,7 @@ import { CSS } from '@dnd-kit/utilities';
 import TaskCard from './TaskCard';
 import '../styles/KanbanColumn.css';
 
-const KanbanColumn = ({ column, tasks, onAddTask, onTaskDelete, onTaskUpdate }) => {
+const KanbanColumn = ({ column, tasks, onAddTask, onTaskDelete, onTaskUpdate, activeTaskId }) => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
@@ -56,7 +56,6 @@ const KanbanColumn = ({ column, tasks, onAddTask, onTaskDelete, onTaskUpdate }) 
 
   const handleDropdownAction = (action) => {
     console.log(`Column ${column.id} action:`, action);
-    // Add your action handlers here
     setShowDropdown(false);
   };
 

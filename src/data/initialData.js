@@ -35,7 +35,7 @@ export const initialData = {
       columnId: 'todo',
       subtasks: [
         { id: 'sub-1', title: 'Design user interface', completed: false },
-        { id: 'sub-2', title: 'Implement backend logic', completed: true },
+        
         { id: 'sub-3', title: 'Test functionality', completed: false }
       ]
     },

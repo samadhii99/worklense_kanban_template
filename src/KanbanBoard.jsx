@@ -1,4 +1,4 @@
-// KanbanBoard.jsx
+// KanbanBoard.jsx - Fixed drag and drop issues
 import React, { useState, useMemo } from 'react';
 import {
   DndContext,
@@ -43,9 +43,7 @@ const KanbanBoard = () => {
       },
     }),
     useSensor(KeyboardSensor, {
-      // Disable keyboard sensor when focus is on subtask items
       coordinateGetter: (event, args) => {
-        // Don't handle keyboard events from subtask items
         if (event.target.closest('.subtask-item')) {
           return null;
         }
@@ -62,31 +60,91 @@ const KanbanBoard = () => {
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
+
+    if (!over) {
+      setActiveTask(null);
+      return;
+    }
+
+    const activeTaskData = data.tasks[active.id];
+    const activeId = active.id;
+    const overId = over.id;
+
+    // Clear active task first
     setActiveTask(null);
 
-    if (!over) return;
+    if (!activeTaskData) {
+      return;
+    }
 
-    const activeTask = data.tasks[active.id];
-    const overColumnId = over.data?.current?.type === 'column' ? over.id : data.tasks[over.id]?.columnId;
-    
-    if (!overColumnId || activeTask.columnId === overColumnId) return;
-
+    // Use functional update to ensure we have latest state
     setData(prevData => {
-      const newData = { ...prevData };
+      const newData = JSON.parse(JSON.stringify(prevData)); // Deep clone to avoid mutations
       
-      // Remove task from old column
-      const oldColumn = newData.columns[activeTask.columnId];
-      oldColumn.taskIds = oldColumn.taskIds.filter(id => id !== active.id);
+      const task = newData.tasks[activeId];
+      if (!task) return prevData;
+
+      const oldColumnId = task.columnId;
       
-      // Add task to new column
-      const newColumn = newData.columns[overColumnId];
-      newColumn.taskIds.push(active.id);
-      
-      // Update task's column
-      newData.tasks[active.id] = {
-        ...newData.tasks[active.id],
-        columnId: overColumnId
-      };
+      // Determine the target column
+      let newColumnId;
+      if (over.data?.current?.type === 'column') {
+        newColumnId = overId;
+      } else {
+        // Dropped on another task
+        const overTask = newData.tasks[overId];
+        newColumnId = overTask?.columnId || oldColumnId;
+      }
+
+      // If same column, handle reordering
+      if (oldColumnId === newColumnId) {
+        const columnTaskIds = newData.columns[oldColumnId].taskIds;
+        const oldIndex = columnTaskIds.indexOf(activeId);
+        const newIndex = columnTaskIds.indexOf(overId);
+
+        if (oldIndex !== -1 && newIndex !== -1 && oldIndex !== newIndex) {
+          // Remove from old position
+          columnTaskIds.splice(oldIndex, 1);
+          // Insert at new position
+          const finalIndex = oldIndex < newIndex ? newIndex : newIndex;
+          columnTaskIds.splice(finalIndex, 0, activeId);
+          newData.columns[oldColumnId].taskIds = columnTaskIds;
+        }
+      } else {
+        // Moving to different column
+        // Remove from old column
+        if (newData.columns[oldColumnId]) {
+          newData.columns[oldColumnId].taskIds = newData.columns[oldColumnId].taskIds.filter(
+            id => id !== activeId
+          );
+        }
+        
+        // Add to new column at the right position
+        if (newData.columns[newColumnId]) {
+          const newColumnTaskIds = newData.columns[newColumnId].taskIds;
+          
+          if (over.data?.current?.type === 'column') {
+            // Dropped on empty column or column header - add to end
+            newColumnTaskIds.push(activeId);
+          } else {
+            // Dropped on a task - insert at that position
+            const overIndex = newColumnTaskIds.indexOf(overId);
+            if (overIndex !== -1) {
+              newColumnTaskIds.splice(overIndex, 0, activeId);
+            } else {
+              newColumnTaskIds.push(activeId);
+            }
+          }
+          
+          newData.columns[newColumnId].taskIds = newColumnTaskIds;
+        }
+        
+        // Update task's column
+        newData.tasks[activeId] = {
+          ...newData.tasks[activeId],
+          columnId: newColumnId
+        };
+      }
       
       return newData;
     });
@@ -121,7 +179,6 @@ const KanbanBoard = () => {
     }));
   };
 
-  // ===== TASK DELETE HANDLER =====
   const handleTaskDelete = (taskId) => {
     setData(prevData => {
       const newData = { ...prevData };
@@ -129,7 +186,6 @@ const KanbanBoard = () => {
       
       if (!task) return prevData;
       
-      // Remove task from its column's taskIds
       const columnId = task.columnId;
       if (newData.columns[columnId]) {
         newData.columns[columnId].taskIds = newData.columns[columnId].taskIds.filter(
@@ -137,17 +193,13 @@ const KanbanBoard = () => {
         );
       }
       
-      // Remove task from tasks object
       const { [taskId]: deletedTask, ...remainingTasks } = newData.tasks;
       newData.tasks = remainingTasks;
       
       return newData;
     });
-    
-    console.log('Task deleted:', taskId);
   };
 
-  // ===== TASK UPDATE HANDLER =====
   const handleTaskUpdate = (taskId, updates) => {
     setData(prevData => ({
       ...prevData,
@@ -159,8 +211,6 @@ const KanbanBoard = () => {
         }
       }
     }));
-    
-    console.log('Task updated:', taskId, updates);
   };
 
   const filteredTasks = useMemo(() => {
@@ -209,7 +259,8 @@ const KanbanBoard = () => {
               const column = data.columns[columnId];
               const tasks = column.taskIds
                 .map(taskId => filteredTasks[taskId])
-                .filter(Boolean);
+                .filter(Boolean)
+                .filter(task => task.id !== activeTask?.id); // Exclude active dragging task
               
               return (
                 <KanbanColumn
@@ -219,15 +270,23 @@ const KanbanBoard = () => {
                   onAddTask={handleAddTask}
                   onTaskDelete={handleTaskDelete}
                   onTaskUpdate={handleTaskUpdate}
+                  activeTaskId={activeTask?.id}
                 />
               );
             })}
           </SortableContext>
         </div>
 
-        <DragOverlay>
-          {activeTask && (
-            <div className="drag-overlay">
+        <DragOverlay dropAnimation={{
+          duration: 200,
+          easing: 'cubic-bezier(0.18, 0.67, 0.6, 1.22)',
+        }}>
+          {activeTask ? (
+            <div style={{ 
+              cursor: 'grabbing',
+              transform: 'rotate(3deg)',
+              opacity: 0.95
+            }}>
               <TaskCard 
                 task={activeTask} 
                 isDragging={true}
@@ -235,7 +294,7 @@ const KanbanBoard = () => {
                 onTaskUpdate={handleTaskUpdate}
               />
             </div>
-          )}
+          ) : null}
         </DragOverlay>
       </DndContext>
     </div>

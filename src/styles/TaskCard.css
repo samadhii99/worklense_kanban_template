@@ -1,29 +1,35 @@
 /* styles/TaskCard.css */
 .task-card {
   background: white;
-  border: 1px solid #f3f4f6;
-  border-radius: 6px;
+  border-radius: 8px;
   padding: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   cursor: grab;
   transition: all 0.2s ease;
   position: relative;
-  border: 1.5px solid #e1e4e8 !important;
-  box-shadow: 0 1px 4px #3c404314,0 .5px 1.5px #3c404308;
-  background: #fff !important;
-  margin-bottom: 8px;
-  width: 100%;
-  box-sizing: border-box;
 }
 
 .task-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.task-card.dragging {
-  opacity: 0.5;
-  transform: rotate(5deg);
+.task-card:active {
   cursor: grabbing;
+}
+
+/* Dragging state for the card being dragged */
+.task-card.dragging {
+  cursor: grabbing !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  transform: rotate(3deg) scale(1.02);
+  background: white;
+  border: 2px solid #3b82f6;
+}
+
+/* Ensure pointer events are disabled on drag overlay children */
+.task-card.dragging * {
+  pointer-events: none;
 }
 
 .task-tags {
@@ -435,15 +441,10 @@
 .task-context-menu {
   background: white;
   border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   padding: 4px;
-  min-width: 140px;
+  min-width: 160px;
   z-index: 100000;
-  background: rgb(255, 255, 255);
-  border-radius: 8px;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 8px;
-  padding: 0px;
-  min-width: 120px;
 }
 
 .context-menu-item {
@@ -451,34 +452,14 @@
   align-items: center;
   gap: 8px;
   width: 100%;
-  padding: 8px 16px;
+  padding: 8px 12px;
   border: none;
-  background: none;
+  background: transparent;
+  border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
-  font-family: inherit;
-  font-weight: 500;
-  text-align: left;
-  height: 32px;
-  outline: none;
-  position: relative;
-  display: inline-flex;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
-  font-weight: 500;
-  white-space: nowrap;
-  text-align: center;
-  background-image: none;
-  background: transparent;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-  user-select: none;
-  touch-action: manipulation;
-  color: rgba(0,0,0,0.88);
-  font-family: -apple-system,BlinkMacSystemFont,Inter,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji";
+  transition: background 0.15s;
+  color: #374151;
 }
 
 .context-menu-item.delete {
