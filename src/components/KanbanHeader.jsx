@@ -198,23 +198,31 @@ const KanbanHeader = ({
         </div>
 
         <div className="filter-wrapper">
-          <button 
-            className={`filter-button ${activeFilters.group ? 'active' : ''}`}
-            onClick={() => toggleFilter('group')}
-          >
-            <GroupOutlined style={{ fontSize: '16px' }} />
-            Group by {selectedGroupBy}
-            <ChevronDown size={12} className="filter-dropdown-arrow" />
-          </button>
+  <button 
+    className={`filter-button ${activeFilters.group ? 'active' : ''}`}
+    onClick={() => toggleFilter('group')}
+  >
+    <GroupOutlined style={{ fontSize: '16px' }} />
+    Group by {selectedGroupBy}
+    <ChevronDown size={12} className="filter-dropdown-arrow" />
+  </button>
+  
+  {activeFilters.group && (
+    <FilterDropdowns.GroupByDropdown 
+      selectedGroupBy={selectedGroupBy}
+      setSelectedGroupBy={setSelectedGroupBy}
+      setActiveFilters={setActiveFilters}
+    />
+  )}
+</div>
+
+<div className="filter-wrapper">
+  <div className='manage-statuses-btn' title="Manage Statuses" >
+   <span>Manage Statuses</span> <SettingOutlined style={{ fontSize: '16px' }} />  
+  </div>
+</div>
           
-          {activeFilters.group && (
-            <FilterDropdowns.GroupByDropdown 
-              selectedGroupBy={selectedGroupBy}
-              setSelectedGroupBy={setSelectedGroupBy}
-              setActiveFilters={setActiveFilters}
-            />
-          )}
-        </div>
+          
 
         
       </div>

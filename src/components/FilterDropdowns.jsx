@@ -45,7 +45,11 @@ const MembersDropdown = ({ memberSearchTerm, setMemberSearchTerm }) => {
           value={memberSearchTerm}
           onChange={(e) => setMemberSearchTerm(e.target.value)}
         />
+        
       </div>
+
+      <div className="member-dropdown-separator" />
+
       <div className="members-list">
         <div className="no-members-found">No options found</div>
       </div>
@@ -77,6 +81,7 @@ const LabelsDropdown = ({ labelSearchTerm, setLabelSearchTerm, selectedLabels, s
           onChange={(e) => setLabelSearchTerm(e.target.value)}
         />
       </div>
+      <div className="dropdown-separator" />
       <div className="labels-list">
         {filteredLabels.map(label => (
           <div
@@ -124,11 +129,13 @@ const GroupByDropdown = ({ selectedGroupBy, setSelectedGroupBy, setActiveFilters
   );
 };
 
+
 const FilterDropdowns = {
   PriorityDropdown,
   MembersDropdown,
   LabelsDropdown,
   GroupByDropdown
+  
 };
 
 export default FilterDropdowns;
