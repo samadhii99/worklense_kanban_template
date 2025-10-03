@@ -142,22 +142,25 @@ const KanbanHeader = ({
         )}
         
         <div className="filter-wrapper">
-          <button 
-            className={`filter-button ${activeFilters.priority ? 'active' : ''}`}
-            onClick={() => toggleFilter('priority')}
-          >
-            <FlagOutlined style={{ fontSize: '16px' }} />
-            Priority
-            <ChevronDown size={12} className="filter-dropdown-arrow" />
-          </button>
-          
-          {activeFilters.priority && (
-            <FilterDropdowns.PriorityDropdown 
-              selectedPriorities={selectedPriorities}
-              setSelectedPriorities={setSelectedPriorities}
-            />
-          )}
-        </div>
+  <button 
+    className={`filter-button ${activeFilters.priority ? 'active' : ''}`}
+    onClick={() => toggleFilter('priority')}
+  >
+    <FlagOutlined style={{ fontSize: '16px' }} />
+    Priority
+    {selectedPriorities.length > 0 && (
+      <span className="filter-count">{selectedPriorities.length}</span>
+    )}
+    <ChevronDown size={12} className="filter-dropdown-arrow" />
+  </button>
+  
+  {activeFilters.priority && (
+    <FilterDropdowns.PriorityDropdown 
+      selectedPriorities={selectedPriorities}
+      setSelectedPriorities={setSelectedPriorities}
+    />
+  )}
+</div>
         
         <div className="filter-wrapper">
           <button 
@@ -178,24 +181,27 @@ const KanbanHeader = ({
         </div>
         
         <div className="filter-wrapper">
-          <button 
-            className={`filter-button ${activeFilters.labels ? 'active' : ''}`}
-            onClick={() => toggleFilter('labels')}
-          >
-            <Tag size={16} style={{ transform: 'scaleX(-1)' }} />
-            Labels
-            <ChevronDown size={12} className="filter-dropdown-arrow" />
-          </button>
-          
-          {activeFilters.labels && (
-            <FilterDropdowns.LabelsDropdown 
-              labelSearchTerm={labelSearchTerm}
-              setLabelSearchTerm={setLabelSearchTerm}
-              selectedLabels={selectedLabels}
-              setSelectedLabels={setSelectedLabels}
-            />
-          )}
-        </div>
+  <button 
+    className={`filter-button ${activeFilters.labels ? 'active' : ''}`}
+    onClick={() => toggleFilter('labels')}
+  >
+    <Tag size={16} style={{ transform: 'scaleX(-1)' }} />
+    Labels
+    {selectedLabels.length > 0 && (
+      <span className="filter-count">{selectedLabels.length}</span>
+    )}
+    <ChevronDown size={12} className="filter-dropdown-arrow" />
+  </button>
+  
+  {activeFilters.labels && (
+    <FilterDropdowns.LabelsDropdown 
+      labelSearchTerm={labelSearchTerm}
+      setLabelSearchTerm={setLabelSearchTerm}
+      selectedLabels={selectedLabels}
+      setSelectedLabels={setSelectedLabels}
+    />
+  )}
+</div>
 
         <div className="filter-wrapper">
   <button 

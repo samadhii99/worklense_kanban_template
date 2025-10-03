@@ -8,6 +8,7 @@
   cursor: grab;
   transition: all 0.2s ease;
   position: relative;
+  border: 1px solid #ddd;
 }
 
 .task-card:hover {

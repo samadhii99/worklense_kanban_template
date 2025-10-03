@@ -1,4 +1,3 @@
-// KanbanBoard.jsx - Fixed drag and drop issues
 import React, { useState, useMemo } from 'react';
 import {
   DndContext,
@@ -214,17 +213,46 @@ const KanbanBoard = () => {
   };
 
   const filteredTasks = useMemo(() => {
-    if (!searchTerm) return data.tasks;
+    let filtered = { ...data.tasks };
     
-    const filtered = {};
-    Object.entries(data.tasks).forEach(([id, task]) => {
-      if (task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          task.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))) {
-        filtered[id] = task;
-      }
-    });
+    // Filter by search term
+    if (searchTerm) {
+      const searchFiltered = {};
+      Object.entries(filtered).forEach(([id, task]) => {
+        if (task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            task.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))) {
+          searchFiltered[id] = task;
+        }
+      });
+      filtered = searchFiltered;
+    }
+    
+    // Filter by selected priorities
+    if (selectedPriorities.length > 0) {
+      const priorityFiltered = {};
+      Object.entries(filtered).forEach(([id, task]) => {
+        if (selectedPriorities.includes(task.priority)) {
+          priorityFiltered[id] = task;
+        }
+      });
+      filtered = priorityFiltered;
+    }
+    
+    // Filter by selected labels
+    if (selectedLabels.length > 0) {
+      const labelFiltered = {};
+      Object.entries(filtered).forEach(([id, task]) => {
+        // Check if task has any of the selected labels
+        const hasSelectedLabel = task.tags.some(tag => selectedLabels.includes(tag));
+        if (hasSelectedLabel) {
+          labelFiltered[id] = task;
+        }
+      });
+      filtered = labelFiltered;
+    }
+    
     return filtered;
-  }, [data.tasks, searchTerm]);
+  }, [data.tasks, searchTerm, selectedPriorities, selectedLabels]);
 
   const headerProps = {
     searchTerm,
