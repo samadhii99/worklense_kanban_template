@@ -4,6 +4,40 @@ import { Search } from 'lucide-react';
 import { availableLabels, groupByOptions } from '../data/filterData';
 import '../styles/FilterDropdowns.css';
 
+// Available members data (same as in AssigneeSelector)
+const availableMembers = [
+  {
+    id: 'John Doe',
+    name: 'John Doe'
+    
+  },
+  {
+    id: 'Jane Smith',
+    name: 'Jane Smith'
+    
+  },
+  {
+    id: 'Mike Johnson',
+    name: 'Mike Johnson'
+   
+  },
+  {
+    id: 'Sarah Wilson',
+    name: 'Sarah Wilson'
+    
+  },
+  {
+    id: 'David Brown',
+    name: 'David Brown'
+    
+  },
+  {
+    id: 'Emily Davis',
+    name: 'Emily Davis'
+   
+  }
+];
+
 const PriorityDropdown = ({ selectedPriorities, setSelectedPriorities }) => {
   const togglePriority = (priority) => {
     setSelectedPriorities(prev => 
@@ -34,7 +68,20 @@ const PriorityDropdown = ({ selectedPriorities, setSelectedPriorities }) => {
   );
 };
 
-const MembersDropdown = ({ memberSearchTerm, setMemberSearchTerm }) => {
+const MembersDropdown = ({ memberSearchTerm, setMemberSearchTerm, selectedMembers, setSelectedMembers }) => {
+  const toggleMember = (memberId) => {
+    setSelectedMembers(prev => 
+      prev.includes(memberId) 
+        ? prev.filter(id => id !== memberId)
+        : [...prev, memberId]
+    );
+  };
+
+  const filteredMembers = availableMembers.filter(member =>
+  member.name.toLowerCase().includes(memberSearchTerm.toLowerCase()) ||
+  (member.email && member.email.toLowerCase().includes(memberSearchTerm.toLowerCase()))
+);
+
   return (
     <div className="members-dropdown" onClick={(e) => e.stopPropagation()}>
       <div className="members-search">
@@ -45,13 +92,28 @@ const MembersDropdown = ({ memberSearchTerm, setMemberSearchTerm }) => {
           value={memberSearchTerm}
           onChange={(e) => setMemberSearchTerm(e.target.value)}
         />
-        
       </div>
 
       <div className="member-dropdown-separator" />
 
       <div className="members-list">
-        <div className="no-members-found">No options found</div>
+        {filteredMembers.length > 0 ? (
+          filteredMembers.map(member => (
+            <div
+              key={member.id}
+              className="member-option"
+              onClick={() => toggleMember(member.id)}
+            >
+              <input type="checkbox" checked={selectedMembers?.includes(member.id)} readOnly />
+              
+              <div className="member-details">
+                <div className="member-name">{member.name}</div> 
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="no-members-found">No members found</div>
+        )}
       </div>
     </div>
   );
@@ -120,7 +182,6 @@ const GroupByDropdown = ({ selectedGroupBy, setSelectedGroupBy, setActiveFilters
             className={`group-by-option ${selectedGroupBy === option.name ? 'selected' : ''}`}
             onClick={() => handleGroupBySelect(option.name)}
           >
-            
             <span>{option.name}</span>
           </div>
         ))}
@@ -135,7 +196,6 @@ const FilterDropdowns = {
   MembersDropdown,
   LabelsDropdown,
   GroupByDropdown
-  
 };
 
 export default FilterDropdowns;

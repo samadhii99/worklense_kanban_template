@@ -10,7 +10,7 @@ import { CSS } from '@dnd-kit/utilities';
 import TaskCard from './TaskCard';
 import '../styles/KanbanColumn.css';
 
-const KanbanColumn = ({ column, tasks, onAddTask, onTaskDelete, onTaskUpdate, activeTaskId }) => {
+const KanbanColumn = ({ column, tasks, onAddTask, onTaskDelete, onTaskUpdate, activeTaskId, groupBy }) => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
@@ -62,7 +62,7 @@ const KanbanColumn = ({ column, tasks, onAddTask, onTaskDelete, onTaskUpdate, ac
   return (
     <div ref={setNodeRef} style={style} className="kanban-column">
       
-      <div className={`column-header ${column.id}`}>
+      <div className={`column-header ${groupBy === 'Priority' ? column.id : column.id}`}>
         <div className="column-title">
           {column.title}
           <span className="column-count">({tasks.length})</span>

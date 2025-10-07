@@ -1,9 +1,13 @@
 // data/tagData.js
 export const tagLabels = {
-  'ux-ui': 'UX/UI',
-  'ai': 'AI',
-  'content': 'Content',
-  'design': 'Design',
-  'planning': 'Planning',
-  'finance': 'Finance'
+  'awaiting-review': 'Awaiting review', 
+  'critical': 'Critical', 
+  'documentation': 'Documentation', 
+  'duplicate': 'Duplicate', 
+  'fixed': 'Fixed',
+  'fixing': 'Fixing', 
+  'ready-for-dev': 'Ready for Dev', 
+  'regression': 'Regression',
+  'ui-ux-bug': 'UI/UX Bug'
 };
+

@@ -24,29 +24,28 @@ export const initialData = {
     'task-1': {
       id: 'task-1',
       title: 'In the admin panel, when I click on a student',
-      tags: ['ux-ui', 'ai'],
+      tags: ['ui-ux-bug', 'fixing'],
       priority: 'high',
-      progress: 33, // 1 of 3 subtasks completed
+      progress: 33,
       assignees: [
-        { id: 'user-1', avatar: 'https://i.pravatar.cc/150?img=1' },
-        { id: 'user-2', avatar: 'https://i.pravatar.cc/150?img=2' }
+        { id: 'John Doe', name: 'John Doe', avatar: 'https://i.pravatar.cc/150?img=1' },
+        { id: 'Jane Smith', name: 'Jane Smith', avatar: 'https://i.pravatar.cc/150?img=2' }
       ],
       dueDate: 'No due date',
       columnId: 'todo',
       subtasks: [
         { id: 'sub-1', title: 'Design user interface', completed: false },
-        
         { id: 'sub-3', title: 'Test functionality', completed: false }
       ]
     },
     'task-2': {
       id: 'task-2',
       title: 'UI & Mobile Fixes',
-      tags: ['content'],
+      tags: ['ui-ux-bug', 'fixing'],
       priority: 'medium',
-      progress: 0, // Not started
+      progress: 0,
       assignees: [
-        { id: 'user-1', avatar: 'https://i.pravatar.cc/150?img=1' }
+        { id: 'John Doe', name: 'John Doe', avatar: 'https://i.pravatar.cc/150?img=1' }
       ],
       dueDate: 'No due date',
       columnId: 'todo',
@@ -55,19 +54,18 @@ export const initialData = {
     'task-3': {
       id: 'task-3',
       title: 'Responsive Website Design for 13 more clients',
-      tags: ['design'],
+      tags: ['ready-for-dev'],
       priority: 'low',
-      progress: 25, // 1 of 4 subtasks completed
+      progress: 25,
       assignees: [
-        { id: 'user-1', avatar: 'https://i.pravatar.cc/150?img=1' },
-        { id: 'user-2', avatar: 'https://i.pravatar.cc/150?img=2' },
-        { id: 'user-3', avatar: 'https://i.pravatar.cc/150?img=3' },
-        { id: 'user-4', avatar: 'https://i.pravatar.cc/150?img=4' }
+        { id: 'John Doe', name: 'John Doe', avatar: 'https://i.pravatar.cc/150?img=1' },
+        { id: 'Jane Smith', name: 'Jane Smith', avatar: 'https://i.pravatar.cc/150?img=2' },
+        { id: 'Mike Johnson', name: 'Mike Johnson', avatar: 'https://i.pravatar.cc/150?img=3' },
+        { id: 'Sarah Wilson', name: 'Sarah Wilson', avatar: 'https://i.pravatar.cc/150?img=4' }
       ],
       dueDate: 'Nov 20',
       columnId: 'todo',
       subtasks: [
-        { id: 'sub-4', title: 'Client Requirements', completed: true },
         { id: 'sub-5', title: 'Gathering & Planning', completed: false },
         { id: 'sub-6', title: 'Design, Development & Testing', completed: false },
         { id: 'sub-7', title: 'Client Review & Deployment', completed: false }
@@ -76,11 +74,11 @@ export const initialData = {
     'task-4': {
       id: 'task-4',
       title: 'Client Requirements Gathering & Planning',
-      tags: ['planning'],
+      tags: ['documentation'],
       priority: 'medium',
-      progress: 10, // Just started
+      progress: 10,
       assignees: [
-        { id: 'user-1', avatar: 'https://i.pravatar.cc/150?img=1' }
+        { id: 'John Doe', name: 'John Doe', avatar: 'https://i.pravatar.cc/150?img=1' }
       ],
       dueDate: 'Nov 18',
       columnId: 'todo',
@@ -89,12 +87,12 @@ export const initialData = {
     'task-5': {
       id: 'task-5',
       title: 'Bank Details Management',
-      tags: ['ux-ui', 'finance'],
+      tags: ['critical', 'fixing'],
       priority: 'high',
-      progress: 75, // Almost complete
+      progress: 75,
       assignees: [
-        { id: 'user-1', avatar: 'https://i.pravatar.cc/150?img=1' },
-        { id: 'user-2', avatar: 'https://i.pravatar.cc/150?img=2' }
+        { id: 'John Doe', name: 'John Doe', avatar: 'https://i.pravatar.cc/150?img=1' },
+        { id: 'Jane Smith', name: 'Jane Smith', avatar: 'https://i.pravatar.cc/150?img=2' }
       ],
       dueDate: 'No due date',
       columnId: 'doing',
@@ -103,9 +101,9 @@ export const initialData = {
     'task-6': {
       id: 'task-6',
       title: 'Add Task',
-      tags: [],
+      tags: ['ready-for-dev'],
       priority: 'medium',
-      progress: 50, // Half way done
+      progress: 50,
       assignees: [],
       dueDate: 'No due date',
       columnId: 'doing',
@@ -114,13 +112,13 @@ export const initialData = {
     'task-7': {
       id: 'task-7',
       title: 'In the admin panel, the student will refference ID',
-      tags: ['ux-ui', 'ai'],
+      tags: ['fixed', 'ui-ux-bug'],
       priority: 'high',
-      progress: 100, // Completed - will show checkmark
+      progress: 100,
       assignees: [
-        { id: 'user-1', avatar: 'https://i.pravatar.cc/150?img=1' },
-        { id: 'user-2', avatar: 'https://i.pravatar.cc/150?img=2' },
-        { id: 'user-3', avatar: 'https://i.pravatar.cc/150?img=3' }
+        { id: 'John Doe', name: 'John Doe', avatar: 'https://i.pravatar.cc/150?img=1' },
+        { id: 'Jane Smith', name: 'Jane Smith', avatar: 'https://i.pravatar.cc/150?img=2' },
+        { id: 'Mike Johnson', name: 'Mike Johnson', avatar: 'https://i.pravatar.cc/150?img=3' }
       ],
       dueDate: 'No due date',
       columnId: 'done',
@@ -129,13 +127,13 @@ export const initialData = {
     'task-8': {
       id: 'task-8',
       title: 'In the admin panel. When users click on a student',
-      tags: ['ux-ui', 'ai'],
+      tags: ['fixed', 'regression'],
       priority: 'medium',
-      progress: 100, // Completed - will show checkmark
+      progress: 100,
       assignees: [
-        { id: 'user-1', avatar: 'https://i.pravatar.cc/150?img=1' },
-        { id: 'user-2', avatar: 'https://i.pravatar.cc/150?img=2' },
-        { id: 'user-3', avatar: 'https://i.pravatar.cc/150?img=3' }
+        { id: 'John Doe', name: 'John Doe', avatar: 'https://i.pravatar.cc/150?img=1' },
+        { id: 'Jane Smith', name: 'Jane Smith', avatar: 'https://i.pravatar.cc/150?img=2' },
+        { id: 'Mike Johnson', name: 'Mike Johnson', avatar: 'https://i.pravatar.cc/150?img=3' }
       ],
       dueDate: 'No due date',
       columnId: 'done',
@@ -144,13 +142,13 @@ export const initialData = {
     'task-9': {
       id: 'task-9',
       title: 'In the Student profile dashboard, the student refference ID',
-      tags: ['ux-ui', 'ai'],
+      tags: ['fixed'],
       priority: 'low',
-      progress: 100, // Completed - will show checkmark
+      progress: 100,
       assignees: [
-        { id: 'user-1', avatar: 'https://i.pravatar.cc/150?img=1' },
-        { id: 'user-2', avatar: 'https://i.pravatar.cc/150?img=2' },
-        { id: 'user-3', avatar: 'https://i.pravatar.cc/150?img=3' }
+        { id: 'John Doe', name: 'John Doe', avatar: 'https://i.pravatar.cc/150?img=1' },
+        { id: 'Jane Smith', name: 'Jane Smith', avatar: 'https://i.pravatar.cc/150?img=2' },
+        { id: 'Mike Johnson', name: 'Mike Johnson', avatar: 'https://i.pravatar.cc/150?img=3' }
       ],
       dueDate: 'No due date',
       columnId: 'done',
@@ -159,13 +157,13 @@ export const initialData = {
     'task-10': {
       id: 'task-10',
       title: 'Database Design',
-      tags: ['ux-ui', 'ai'],
+      tags: ['documentation', 'fixed'],
       priority: 'high',
-      progress: 100, // Completed - will show checkmark
+      progress: 100,
       assignees: [
-        { id: 'user-1', avatar: 'https://i.pravatar.cc/150?img=1' },
-        { id: 'user-2', avatar: 'https://i.pravatar.cc/150?img=2' },
-        { id: 'user-3', avatar: 'https://i.pravatar.cc/150?img=3' }
+        { id: 'John Doe', name: 'John Doe', avatar: 'https://i.pravatar.cc/150?img=1' },
+        { id: 'Jane Smith', name: 'Jane Smith', avatar: 'https://i.pravatar.cc/150?img=2' },
+        { id: 'Mike Johnson', name: 'Mike Johnson', avatar: 'https://i.pravatar.cc/150?img=3' }
       ],
       dueDate: 'No due date',
       columnId: 'done',

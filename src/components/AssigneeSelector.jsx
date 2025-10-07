@@ -7,37 +7,37 @@ import '../styles/AssigneeSelector.css';
 // Sample user data - you can replace this with your actual user data from initialData.js
 const availableUsers = [
   {
-    id: 'user-1',
+    id: 'John Doe',
     name: 'John Doe',
     email: 'john.doe@company.com',
     avatar: 'https://i.pravatar.cc/150?img=1'
   },
   {
-    id: 'user-2',
+    id: 'Jane Smith',
     name: 'Jane Smith',
     email: 'jane.smith@company.com',
     avatar: 'https://i.pravatar.cc/150?img=2'
   },
   {
-    id: 'user-3',
+    id: 'Mike Johnson',
     name: 'Mike Johnson',
     email: 'mike.johnson@company.com',
     avatar: 'https://i.pravatar.cc/150?img=3'
   },
   {
-    id: 'user-4',
+    id: 'Sarah Wilson',
     name: 'Sarah Wilson',
     email: 'sarah.wilson@company.com',
     avatar: 'https://i.pravatar.cc/150?img=4'
   },
   {
-    id: 'user-5',
+    id: 'David Brown',
     name: 'David Brown',
     email: 'david.brown@company.com',
     avatar: 'https://i.pravatar.cc/150?img=5'
   },
   {
-    id: 'user-6',
+    id: 'Emily Davis',
     name: 'Emily Davis',
     email: 'emily.davis@company.com',
     avatar: 'https://i.pravatar.cc/150?img=6'
@@ -56,29 +56,31 @@ const AssigneeSelector = ({
   const [filteredUsers, setFilteredUsers] = useState(availableUsers);
   const selectorRef = useRef(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (selectorRef.current && !selectorRef.current.contains(event.target)) {
-        onClose();
-      }
-    };
-
-    const handleEscapeKey = (event) => {
-      if (event.key === 'Escape') {
-        onClose();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-      document.addEventListener('keydown', handleEscapeKey);
+useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (selectorRef.current && !selectorRef.current.contains(event.target)) {
+      onClose();
     }
+  };
 
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleEscapeKey);
-    };
-  }, [isOpen, onClose]);
+  const handleEscapeKey = (event) => {
+    if (event.key === 'Escape') {
+      onClose();
+    }
+  };
+
+  if (isOpen) {
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscapeKey);
+    document.body.style.overflow = 'hidden';
+  }
+
+  return () => {
+    document.removeEventListener('mousedown', handleClickOutside);
+    document.removeEventListener('keydown', handleEscapeKey);
+    document.body.style.overflow = 'unset';
+  };
+}, [isOpen, onClose]);
 
   useEffect(() => {
     const filtered = availableUsers.filter(user =>

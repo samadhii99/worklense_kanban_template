@@ -139,8 +139,8 @@
   border-radius: .375rem;
   width: 12rem;
   z-index: 50;
-  top: 100%;
-  right: 0;
+  top: 80%;
+  right: 4%;
   position: absolute;
   box-sizing: border-box;
 }
@@ -203,6 +203,7 @@
   padding-right: 1rem;
   font-family: -apple-system,BlinkMacSystemFont,Inter,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji" !important;
   margin: 0;
+  padding-top: .5rem;
 }
 
 /* Style the category buttons */
@@ -438,3 +439,23 @@
 }
 
 
+/* Add these new styles for priority-based columns */
+.column-header.high {
+  background-color: rgba(205, 92, 92, 0.41);
+}
+
+.column-header.medium {
+ background-color: rgba(218, 165, 32, 0.41);
+}
+
+.column-header.low {
+  background-color: rgba(46, 139, 87, 0.41);
+}
+
+/* Optional: Adjust text color for better contrast */
+.column-header.high .column-title,
+.column-header.medium .column-title,
+.column-header.low .column-title {
+  color: #1f2937;
+  font-weight: 600;
+}

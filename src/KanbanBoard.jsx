@@ -30,6 +30,7 @@ const KanbanBoard = () => {
     group: false
   });
   const [selectedPriorities, setSelectedPriorities] = useState([]);
+  const [selectedMembers, setSelectedMembers] = useState([]);
   const [memberSearchTerm, setMemberSearchTerm] = useState('');
   const [labelSearchTerm, setLabelSearchTerm] = useState('');
   const [selectedLabels, setSelectedLabels] = useState([]);
@@ -50,6 +51,8 @@ const KanbanBoard = () => {
       }
     })
   );
+
+  const [showManageStatuses, setShowManageStatuses] = useState(false);
 
   const handleDragStart = (event) => {
     const { active } = event;
@@ -226,6 +229,8 @@ const KanbanBoard = () => {
       });
       filtered = searchFiltered;
     }
+
+    
     
     // Filter by selected priorities
     if (selectedPriorities.length > 0) {
@@ -250,26 +255,109 @@ const KanbanBoard = () => {
       });
       filtered = labelFiltered;
     }
+
+    // Filter by selected members
+  if (selectedMembers.length > 0) {
+    const memberFiltered = {};
+    Object.entries(filtered).forEach(([id, task]) => {
+      // Check if task has any of the selected members assigned
+      const hasSelectedMember = task.assignees?.some(assignee => 
+        selectedMembers.includes(assignee.id)
+      );
+      if (hasSelectedMember) {
+        memberFiltered[id] = task;
+      }
+    });
+    filtered = memberFiltered;
+  }
     
     return filtered;
-  }, [data.tasks, searchTerm, selectedPriorities, selectedLabels]);
+  }, [data.tasks, searchTerm, selectedPriorities, selectedLabels, selectedMembers]);
 
   const headerProps = {
-    searchTerm,
-    setSearchTerm,
-    activeFilters,
-    setActiveFilters,
-    selectedPriorities,
-    setSelectedPriorities,
-    memberSearchTerm,
-    setMemberSearchTerm,
-    labelSearchTerm,
-    setLabelSearchTerm,
-    selectedLabels,
-    setSelectedLabels,
-    selectedGroupBy,
-    setSelectedGroupBy
+  searchTerm,
+  setSearchTerm,
+  activeFilters,
+  setActiveFilters,
+  selectedPriorities,
+  setSelectedPriorities,
+  memberSearchTerm,
+  setMemberSearchTerm,
+  selectedMembers,
+  setSelectedMembers,
+  labelSearchTerm,
+  setLabelSearchTerm,
+  selectedLabels,
+  setSelectedLabels,
+  selectedGroupBy,
+  setSelectedGroupBy,
+  showManageStatuses,
+  setShowManageStatuses,
+  columns: data.columns,
+  columnOrder: data.columnOrder
+};
+
+  // Add this helper function after the useMemo for filteredTasks
+const groupedData = useMemo(() => {
+  if (selectedGroupBy === 'Priority') {
+    // Create priority-based columns
+    const priorityColumns = {
+      'high': {
+        id: 'high',
+        title: 'High',
+        color: '#fecaca',
+        taskIds: []
+      },
+      'medium': {
+        id: 'medium',
+        title: 'Medium',
+        color: '#fde68a',
+        taskIds: []
+      },
+      'low': {
+        id: 'low',
+        title: 'Low',
+        color: '#bbf7d0',
+        taskIds: []
+      }
+    };
+
+    // Distribute filtered tasks into priority columns
+    Object.entries(filteredTasks).forEach(([taskId, task]) => {
+      const priority = task.priority || 'medium';
+      if (priorityColumns[priority]) {
+        priorityColumns[priority].taskIds.push(taskId);
+      }
+    });
+
+    return {
+      columns: priorityColumns,
+      columnOrder: ['high', 'medium', 'low'],
+      tasks: filteredTasks
+    };
+  }
+
+  // Default: Status grouping
+  const statusColumns = {};
+  const statusOrder = [];
+
+  data.columnOrder.forEach(columnId => {
+    const column = data.columns[columnId];
+    const taskIds = column.taskIds.filter(taskId => filteredTasks[taskId]);
+    
+    statusColumns[columnId] = {
+      ...column,
+      taskIds
+    };
+    statusOrder.push(columnId);
+  });
+
+  return {
+    columns: statusColumns,
+    columnOrder: statusOrder,
+    tasks: filteredTasks
   };
+}, [data, filteredTasks, selectedGroupBy]);
 
   return (
     <div className="kanban-container">
@@ -281,29 +369,31 @@ const KanbanBoard = () => {
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >
-        <div className="kanban-board">
-          <SortableContext items={data.columnOrder} strategy={horizontalListSortingStrategy}>
-            {data.columnOrder.map(columnId => {
-              const column = data.columns[columnId];
-              const tasks = column.taskIds
-                .map(taskId => filteredTasks[taskId])
-                .filter(Boolean)
-                .filter(task => task.id !== activeTask?.id); // Exclude active dragging task
-              
-              return (
-                <KanbanColumn
-                  key={column.id}
-                  column={column}
-                  tasks={tasks}
-                  onAddTask={handleAddTask}
-                  onTaskDelete={handleTaskDelete}
-                  onTaskUpdate={handleTaskUpdate}
-                  activeTaskId={activeTask?.id}
-                />
-              );
-            })}
-          </SortableContext>
-        </div>
+        
+<div className="kanban-board">
+  <SortableContext items={groupedData.columnOrder} strategy={horizontalListSortingStrategy}>
+    {groupedData.columnOrder.map(columnId => {
+      const column = groupedData.columns[columnId];
+      const tasks = column.taskIds
+        .map(taskId => groupedData.tasks[taskId])
+        .filter(Boolean)
+        .filter(task => task.id !== activeTask?.id);
+      
+      return (
+        <KanbanColumn
+          key={column.id}
+          column={column}
+          tasks={tasks}
+          onAddTask={handleAddTask}
+          onTaskDelete={handleTaskDelete}
+          onTaskUpdate={handleTaskUpdate}
+          activeTaskId={activeTask?.id}
+          groupBy={selectedGroupBy}
+        />
+      );
+    })}
+  </SortableContext>
+</div>
 
         <DragOverlay dropAnimation={{
           duration: 200,

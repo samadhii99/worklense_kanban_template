@@ -11,7 +11,7 @@
 .kanban-board {
   display: flex;
   gap: 16px;
-  height: calc(100vh - 140px);
+  min-height: calc(100vh - 350px);
   overflow-x: auto;
   padding-bottom: 20px;
   z-index: 1;

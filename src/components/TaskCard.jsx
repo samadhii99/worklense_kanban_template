@@ -582,13 +582,7 @@ const TaskCard = ({ task, isDragging, onTaskUpdate, onTaskDelete }) => {
             <div className={`task-priority ${task.priority}`}></div>
             <h4 className="task-title" title={task.title}>{task.title}</h4>
           </div>
-          <button 
-            className="task-menu"
-            onClick={handleInteractiveClick}
-            onPointerDown={handleInteractivePointerDown}
-          >
-            <MoreHorizontal size={16} />
-          </button>
+          
         </div>
         
         <div className="task-footer">

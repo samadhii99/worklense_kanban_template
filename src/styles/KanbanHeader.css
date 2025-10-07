@@ -75,6 +75,10 @@
   margin-left: 8px;
 }
 
+.filter-label {
+  font-weight: 600;
+}
+
 .search-action-btn {
   transition: all 0.2s ease;
     transition-duration: 0.2s;

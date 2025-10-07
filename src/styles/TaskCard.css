@@ -58,36 +58,53 @@
   flex: 1;
 }
 
-.task-tag.ux-ui {
+.task-tag.documentation {
   
-  background:rgb(203, 188, 120);
+  background: rgba(238, 135, 197);
   color: rgb(255, 255, 255);
 }
 
-.task-tag.ai {
+.task-tag.duplicate {
   color: rgb(255, 255, 255);
-  background: #1e40af;
+  background: rgba(170, 203, 120);
 }
 
-.task-tag.content {
+.task-tag.fixed {
   color: rgb(255, 255, 255);
-  background: #be185d;
+  background: rgba(203, 200, 161);
 }
 
-.task-tag.design {
+.task-tag.fixing {
   color: rgb(255, 255, 255);
-  background: #059669;
+  background: rgba(128, 202, 121);
 }
 
-.task-tag.planning {
+.task-tag.ready-for-dev {
   color: rgb(255, 255, 255);
-  background: #3730a3;
+  background: rgba(119, 129, 202);
 }
 
-.task-tag.finance {
+.task-tag.regression {
   color: rgb(255, 255, 255);
-  background: #dc2626;
+  background: rgba(203, 152, 120);
 }
+
+.task-tag.ui-ux-bug {
+  color: rgb(255, 255, 255);
+  background: rgba(203, 188, 120);
+}
+
+.task-tag.awaiting-review{
+  color: rgb(255, 255, 255);
+  background: rgba(144, 91, 57);
+}
+
+.task-tag.critical {
+  color: rgb(255, 255, 255);
+  background: rgba(21, 76, 155);
+}
+
+
 
 .task-header {
   display: flex;
