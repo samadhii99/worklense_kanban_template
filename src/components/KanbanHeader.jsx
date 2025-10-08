@@ -1,8 +1,9 @@
 // components/KanbanHeader.jsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Search, ChevronDown, Tag, UsersRound } from 'lucide-react';
 import { FlagOutlined, GroupOutlined, SettingOutlined } from '@ant-design/icons';
 import FilterDropdowns from './FilterDropdowns';
+import ManageStatusesModal from './ManageStatusesModal';
 import '../styles/KanbanHeader.css';
 
 const KanbanHeader = ({
@@ -21,9 +22,13 @@ const KanbanHeader = ({
   selectedLabels,
   setSelectedLabels,
   selectedGroupBy,
-  setSelectedGroupBy
+  setSelectedGroupBy,
+  columns,
+  columnOrder,
+  onUpdateColumns
 }) => {
   const [isSearchExpanded, setIsSearchExpanded] = React.useState(false);
+  const [isManageStatusesOpen, setIsManageStatusesOpen] = useState(false);
 
   // Close all dropdowns when clicking outside
   useEffect(() => {
@@ -232,12 +237,24 @@ const KanbanHeader = ({
 
         {selectedGroupBy === 'Status' && (
         <div className="filter-wrapper">
-        <div className='manage-statuses-btn' title="Manage Statuses" >
+        <div 
+          className='manage-statuses-btn' 
+          title="Manage Statuses"
+          onClick={() => setIsManageStatusesOpen(true)}
+        >
         <span>Manage Statuses</span> <SettingOutlined style={{ fontSize: '16px' }} />  
         </div>
         </div>
         )}
       </div>
+
+      <ManageStatusesModal
+        isOpen={isManageStatusesOpen}
+        onClose={() => setIsManageStatusesOpen(false)}
+        columns={columns}
+        columnOrder={columnOrder}
+        onUpdateColumns={onUpdateColumns}
+      />
     </div>
   );
 };
