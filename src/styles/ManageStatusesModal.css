@@ -60,12 +60,22 @@
 }
 
 .manage-statuses-info {
+  background-color: #E3F2FD;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  padding: 12px;
+  width: 85%;
+  height: auto;
   display: flex;
+  align-items: center;
+  justify-self: center;
   gap: 12px;
-  padding: 16px 24px;
-  background-color: #eff6ff;
-  border-bottom: 1px solid #dbeafe;
+  margin: 16px auto 0 35px;
+  margin-bottom: 10px;
+  font-size: 14px;
 }
+
+
 
 .info-icon {
   font-size: 20px;
@@ -75,18 +85,20 @@
 .info-text {
   font-size: 13px;
   color: #1e40af;
-  line-height: 1.5;
+  line-height: 1;
 }
 
 .info-text strong {
   display: block;
-  margin-bottom: 4px;
-  color: #1e3a8a;
+  margin-bottom: 2px;
+  color: blue-600;
+  align-items: center;
 }
 
 .info-subtext {
-  color: #3b82f6;
+  color: blue-600;
   font-size: 12px;
+  align-items: center;
 }
 
 .manage-statuses-content {
@@ -97,6 +109,13 @@
 
 .status-category {
   margin-bottom: 24px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #f9fafb;
+  transition: all 0.2s;
+  width:91%;
+  margin-left:10px;
 }
 
 .status-category:last-child {
@@ -135,7 +154,7 @@
 
 .add-status-btn {
   display: flex;
-  align-items: center;
+  justify-self: end;
   gap: 6px;
   padding: 6px 12px;
   background: none;
@@ -241,4 +260,94 @@
 
 .manage-statuses-content::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
+}
+.status-name-input {
+  flex: 1;
+  border: 1px solid #3b82f6;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 14px;
+  outline: none;
+  background: white;
+  color: #111827;
+}
+
+.status-name-input::placeholder {
+  color: #111827;
+}
+
+/* Status item styling */
+.status-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  gap: 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.status-item:hover {
+  background-color: #f9fafb;
+}
+
+.status-item:hover .status-actions {
+  opacity: 1;
+}
+
+/* Status actions */
+.status-actions {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.status-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: none;
+  background: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #6b7280;
+  transition: all 0.2s;
+}
+
+.status-action-btn:hover {
+  background-color: #e5e7eb;
+}
+
+.rename-btn:hover {
+  color: #3b82f6;
+  background-color: #dbeafe;
+}
+
+.delete-btn:hover {
+  color: #ef4444;
+  background-color: #fee2e2;
+}
+
+/* Input styling */
+.status-name-input {
+  flex: 1;
+  border: 1px solid #3b82f6;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 14px;
+  outline: none;
+  background: white;
+}
+
+.status-name-input::placeholder {
+  color: #9ca3af;
+}
+
+.status-name {
+  flex: 1;
+  font-size: 14px;
+  color: #374151;
 }

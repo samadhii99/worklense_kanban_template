@@ -1,0 +1,366 @@
+/* styles/ManagePhasesModal.css */
+.manage-phases-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(168, 168, 168, 0.5);
+  z-index: 1000;
+}
+
+.manage-phases-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 700px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+}
+
+.manage-phases-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.manage-phases-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.close-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  color: #6b7280;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.close-button:hover {
+  background-color: #f3f4f6;
+}
+
+.manage-phases-content {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.phase-label-section {
+  margin-bottom: 24px;
+  background-color: #95caff2c;
+  padding: 12px;
+  border: 1px solid #7daef886;
+  border-radius: 6px;   
+}
+
+.phase-label-input {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1c69e6;
+  margin-bottom: 8px;
+  
+}
+
+.phase-label-input-field {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  background-color: white;
+  width: 85%;
+  color: #374151;
+}
+
+.phase-label-input-field:focus {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.manage-phases-info {
+  background-color: #eff6ff;
+  padding: 16px;
+  border-radius: 6px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.info-text {
+  color: #1e40af;
+}
+
+.phases-options-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #f9fafb;
+  border: 2px dashed #d1d5db;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.options-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.add-phase-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.add-phase-btn:hover {
+  background-color: #2563eb;
+}
+
+.phases-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.phase-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.phase-item:hover {
+  border-color: #d1d5db;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.phase-drag-handle {
+  cursor: grab;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+}
+
+.phase-drag-handle:hover {
+  color: #6b7280;
+}
+
+.color-picker-container {
+  position: relative;
+}
+
+.color-picker-button {
+  width: 32px;
+  height: 32px;
+  background-color: #3b82f6;
+  border: 2px solid #e5e7eb;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.color-picker-button:hover {
+  transform: scale(1.1);
+}
+
+.color-picker-popover {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  background-color: white;
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  width: 200px;
+}
+
+.color-option {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.color-option:hover {
+  transform: scale(1.15);
+}
+
+.phase-name-input.editing {
+  flex: 1;
+  padding: 6px 10px;
+  border: 2px solid #fafafa;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  background-color: #fff;
+  color: #374151;
+  transition: border-color 0.2s;
+  min-height: 32px; 
+}
+
+.phase-name-display {
+  flex: 1;
+  padding: 6px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  color: #374151;
+}
+
+.phase-name-display:hover {
+  background-color: #f3f4f6;
+  color: #374151;
+  border: #6b7280 1px solid;
+}
+
+.phase-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.phase-action-btn {
+  padding: 6px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phase-action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.rename-btn {
+  color: #6b7280;
+}
+
+.rename-btn:hover:not(:disabled) {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.delete-btn {
+  color: #ef4444;
+}
+
+.delete-btn:hover:not(:disabled) {
+  background-color: #fee2e2;
+}
+
+.empty-phases-message {
+  text-align: center;
+  padding: 40px 20px;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.manage-phases-footer {
+  padding: 16px 24px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.save-phases-btn {
+  padding: 8px 16px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.save-phases-btn:hover {
+  background-color: #2563eb;
+}
+
+.close-modal-btn {
+  padding: 8px 16px;
+  background-color: #f3f4f6;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #374151;
+  transition: background-color 0.2s;
+}
+
+.close-modal-btn:hover {
+  background-color: #e5e7eb;
+}
+.color-picker-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.color-picker-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.color-picker-input {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}

@@ -197,7 +197,7 @@ box-shadow: 0 0 0 2px white, 0 0 0 4px #37415191;
   left: -4px;
   right: -4px;
   bottom: -4px;
-  border: 2px solid #3b82f6;
+  border: 2px solid #4486f1;
   border-radius: 10px;
   z-index: -1;
 }
@@ -217,7 +217,6 @@ box-shadow: 0 0 0 2px white, 0 0 0 4px #37415191;
   padding: 5px 16px;
   background: #3b82f6;
   color: white;
-  border: 2px solid #0062ffff;
   border-radius: 6px;
   font-size: 14px;
   font-weight: 500;
@@ -226,8 +225,13 @@ box-shadow: 0 0 0 2px white, 0 0 0 4px #37415191;
 }
 
 .manage-statuses-btn:hover {
-  background: #2563eb;
+  box-shadow: 0 0 0 2px white, 0 0 0 4px #4f92ffe0;
 }
+
+.manage-statuses-btn:active {
+  box-shadow: 0 0 0 2px white, 0 0 0 4px #4f92ffe0;
+}
+
 
 /* Responsive */
 @media (max-width: 768px) {
